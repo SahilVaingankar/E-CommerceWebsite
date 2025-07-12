@@ -1,5 +1,5 @@
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { FaSearch, FaShoppingCart } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 
 const Navbar = () => {
   return (
