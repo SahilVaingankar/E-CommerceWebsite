@@ -3,8 +3,8 @@ import { FaSearch } from "react-icons/fa";
 
 const Navbar = () => {
   return (
-    <div
-      className="flex items-center gap-1 h-12 w-full p-2 border-b-3 shadow-gray-400 shadow-md"
+    <nav
+      className="fixed z-30 top-0 left-0 flex items-center gap-1 bg-white h-12 w-full p-2 border-b-3 shadow-gray-400 shadow-md"
       //   style={{ boxShadow: "0 3px 6px 0 rgba(0,0,0,0.3)" }}
     >
       <h1 className="text-16 font-bold">LOGO</h1>
@@ -22,7 +22,7 @@ const Navbar = () => {
       <button className="h-[28px] w-[55px] border-1 rounded-[25px] text-sm">
         Login
       </button>
-    </div>
+    </nav>
   );
 };
 
