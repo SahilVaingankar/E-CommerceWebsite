@@ -15,15 +15,15 @@ const Home = () => {
         <Navbar />
       </header>
 
-      <div className="flex overflow-y-auto mt-5">
+      <div className="flex overflow-y-auto">
         <aside
-          className={`absolute sm:relative sm:flex sm:flex-col bg-black min-h-[100svh] z-20 w-0 ${
+          className={`fixed top-0 left-0 sm:relative sm:flex sm:flex-col bg-black h-[100svh] z-20 w-0 ${
             isClicked ? "w-full sm:w-[250px]" : "w-0"
           } overflow-hidden transition-all duration-700 md:border-r-2`}>
           <Sidebar isClicked={isClicked} />
         </aside>
 
-        <main className=" mt-10">
+        <main className="mt-10">
           <section className="p-2 flex flex-col">
             <h2 className="mt-4.75 text-[20px] font-medium">Recommended</h2>
             <section className="mt-2 flex gap-2 flex-wrap">

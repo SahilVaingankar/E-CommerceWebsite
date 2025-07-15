@@ -3,8 +3,8 @@ import { AiOutlineClose } from "react-icons/ai";
 function Sidebar({ isClicked }: { isClicked: boolean }) {
   return (
     <div
-      className={`sm:absolute fixed top-5 sm:top-0 left-0 flex flex-col justify-around h-[100svh] w-0 sm:px-2 py-6.5 overflow-hidden ${
-        isClicked ? "w-[250px] px-2" : "w-[250px] sm:w-[250px]"
+      className={`absolute flex flex-col justify-around px-2 h-[100svh] w-0 pt-15 pb-2 py-6.5 top-0 left-0 overflow-hidden ${
+        isClicked ? "w-[250px] sm:fixed" : "w-[250px] sm:w-[250px]"
       } bg-[#E8E5E5]`}>
       <div>
         <div className="flex justify-between text-center items-center h-15">
