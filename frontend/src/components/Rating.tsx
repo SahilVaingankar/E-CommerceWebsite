@@ -1,12 +1,37 @@
-import { BsStar, BsStarFill, BsStars } from "react-icons/bs";
-import { RiAtLine } from "react-icons/ri";
+import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import img from "../assets/Gold_Star.svg.png";
 
-const Rating = (rating: { rating: number }) => {
+const Rating = (rating: { rating: any }) => {
+  // for Mask method
   const width = rating.rating * 20;
+
+  // for Traditional method
+  const stars = [];
+
+  for (let i = 1; i <= 5; i++) {
+    if (rating.rating >= i) {
+      stars.push(<BsStarFill key={i} className="text-amber-400" />);
+    } else if (rating.rating >= i - 0.5) {
+      stars.push(<BsStarHalf key={i} className="text-amber-400" />);
+    } else {
+      stars.push(<BsStar key={i} className="text-amber-400" />);
+    }
+  }
+
   return (
     <>
-      <div className="relative w-[70px] h-3.5">
+      {/* -----------------------------------------with Mask------------------------------------------------ */}
+      {/* 
+      Adantages: 
+      - only 2 image imports
+      - less use of JS 
+      - gives decimal precise fill on each
+      
+      Disadvantages:
+      - additional background div on every card although we can remove the "BsStar" completely but it dont look good without border effect
+      - the support of mask is mostly good in browsers but require "webkit" prefix for old browsers like internet explorer*/}
+
+      {/* <div className="relative w-[70px] h-3.5">
         <div
           style={{
             width: `${width}%`,
@@ -27,39 +52,19 @@ const Rating = (rating: { rating: number }) => {
           <BsStar className="w-[14px]" />
           <BsStar className="w-[14px]" />
         </div>
-
-        {/* <svg width="200" height="200" viewBox="0 0 100 100">
-          <path
-            d="
-        M50,5 
-        L61,35 L95,35 
-        L67,57 L76,91 
-        L50,72 L24,91 
-        L33,57 L5,35 
-        L39,35
-
-        L39,5   <!-- Top-right corner of square -->
-        L5,5    <!-- Top-left -->
-        L5,95   <!-- Bottom-left -->
-        L95,95  <!-- Bottom-right -->
-        L95,5   <!-- Top-right again -->
-        L61,35  <!-- Link back to star just to close the path nicely -->
-        Z
-
-        M50,20 
-        L58,40 L80,40 
-        L62,55 L68,78 
-        L50,65 L32,78 
-        L38,55 L20,40 
-        L42,40 Z
-      "
-            fill="black"
-            fillRule="evenodd"
-            stroke="black"
-            strokeWidth="0.5"
-          />
-        </svg> */}
-      </div>
+      </div> */}
+      {/* -----------------------------------------Traditional method------------------------------------------------ */}
+      {/*  
+      Adantages: 
+      - less use of CSS and HTML
+      
+      Disadvantages:
+      - required 3 image imports
+      - more use of JS for conditional checking 
+      - requires to maintain extra list in the memory
+      - don't gives decimal precise fill on each star counts   1.4 as 1 star with corrent logic
+       */}
+      <div className="flex">{stars}</div>
     </>
   );
 };
