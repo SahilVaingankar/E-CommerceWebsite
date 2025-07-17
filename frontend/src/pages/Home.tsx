@@ -1,14 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { FiFilter } from "react-icons/fi";
 import SortBtn from "../components/SortBtn";
 import Sidebar from "../components/Sidebar";
+import ProductCard from "../components/ProductCard";
+import axios from "axios";
+import Rating from "../components/Rating";
 
 const Home = () => {
   const recommendedBtns: string[] = ["bghyu", "mjul", "fgty", "vfty", "dfgf"];
+  const [data, setData] = useState<any>("");
   const [selectedRecommendation, setselectedRecommendation] =
     useState<string>("");
   const [isClicked, setIsClicked] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("https://dummyjson.com/products");
+        setData(response.data.products); // usually you want `response.data`
+        console.log(response.data.products);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <header>
@@ -55,6 +74,7 @@ const Home = () => {
               <SortBtn />
             </section>
             <section className="grid grid-cols-2 gap-5 mt-5">
+              {/* <div className="bg-black h-30"></div>
               <div className="bg-black h-30"></div>
               <div className="bg-black h-30"></div>
               <div className="bg-black h-30"></div>
@@ -62,12 +82,16 @@ const Home = () => {
               <div className="bg-black h-30"></div>
               <div className="bg-black h-30"></div>
               <div className="bg-black h-30"></div>
-              <div className="bg-black h-30"></div>
-              <div className="bg-black h-30"></div>
+              <div className="bg-black h-30"></div> */}
+              {data &&
+                data.map((product: any, i: number) => (
+                  <ProductCard data={product} key={i} />
+                ))}
             </section>
           </section>
         </main>
       </div>
+      <Rating rating={data} />
     </>
   );
 };
