@@ -1,5 +1,6 @@
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -18,7 +19,10 @@ const Navbar = () => {
           className="placeholder:text-[#9D9A9A] w-30"
         />
       </div>
-      <AiOutlineShoppingCart className="h-[25px] w-[25px]" />
+      <Link to="/cart">
+        {" "}
+        <AiOutlineShoppingCart className="h-[25px] w-[25px]" />
+      </Link>
       <button className="h-[28px] w-[55px] border-1 rounded-[25px] text-sm">
         Login
       </button>

@@ -1,20 +1,33 @@
-import { BiShoppingBag } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import Rating from "./Rating";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { CgShoppingCart } from "react-icons/cg";
-import { CiShoppingCart } from "react-icons/ci";
 import { FaCartPlus } from "react-icons/fa";
+import type React from "react";
+import { addToCart } from "../utils/cart";
 
-const ProductCard = ({ data }: { data: any }) => {
+interface ProductCardProps {
+  title: string;
+  rating: number;
+  price: number;
+  discountPercentage: number;
+  images: string[];
+  id: number;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({
+  title,
+  rating,
+  price,
+  discountPercentage,
+  images,
+  id,
+}) => {
   const navigate = useNavigate();
-  const { title, rating, price, discountPercentage, images } = data;
   return (
     <div className="flex flex-col border p-2 gap-0.5 rounded-md w-[138px]">
       <div
         onClick={() => {
-          console.log(data.id);
-          navigate(`/product/${data.id}`);
+          console.log(id);
+          navigate(`/product/${id}`);
         }}
         className="cursor-pointer">
         <img
@@ -38,6 +51,7 @@ const ProductCard = ({ data }: { data: any }) => {
           className="h-4 w-4 cursor-pointer"
           onClick={() => {
             console.log(title, "Added to cart");
+            addToCart({ images, title, price });
           }}
         />
       </div>

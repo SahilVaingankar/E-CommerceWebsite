@@ -51,6 +51,13 @@ weight: 4
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Rating from "../components/Rating";
+import { BiArrowBack, BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
+import QuantityDropdown from "../components/QuantityDropdown";
+import {
+  IoArrowBackCircleOutline,
+  IoChevronBackCircleOutline,
+} from "react-icons/io5";
 
 interface Product {
   title: string;
@@ -63,12 +70,16 @@ interface Product {
   warrantyInformation: string;
   stock: number;
   shippingInformation: string;
+  brand: string;
+  weight: number;
+  dimensions: { width: number; height: number; depth: number };
 }
 
 const ProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (id) {
@@ -86,42 +97,103 @@ const ProductPage: React.FC = () => {
   if (!product) return <div>Loading...</div>;
 
   return (
-    <div className="mt-15 p-10">
+    <div className="mt-15 p-2 ">
+      {" "}
+      <IoChevronBackCircleOutline className="hidden sm:block absolute top-15 left-1 h-10 w-10 rounded-full bg-white-50" />
       <img src={product.images[0]} alt="" />
-      <p>
-        <strong>Title:</strong> {product.title}
-      </p>
-      <p>
-        <strong>Description:</strong> {product.description}
-      </p>
-      <p>
-        <strong>Rating:</strong> {product.rating}
-      </p>
-      <p>
-        <strong>ReturnPolicy:</strong> {product.returnPolicy}
-      </p>
-      {product.reviews.map((review: any, index: number) => (
-        <div key={index}>
+      <h1 className="text-xl font-bold">{product.title}</h1>
+      <div className="flex items-center gap-2 text-sm">
+        {product.rating.toFixed(1)} <Rating rating={product.rating} />
+      </div>
+      <p className="text-xl font-semibold">$ {product.price}</p>
+      <div className="mt-10 space-y-10">
+        <div className="bg-gray-200 p-2">
           <p>
-            <strong>Reviewer:</strong> User {index}
+            <strong>Brand: </strong> {product.brand}
           </p>
           <p>
-            <strong>Comment:</strong> {review.comment}
+            <strong>Weight: </strong> {product.weight}
           </p>
           <p>
-            <strong>Rating:</strong> {review.rating}
+            <strong>dimensions: </strong>
+            <p>
+              <strong>Width: </strong>
+              {product.dimensions.width}mm
+            </p>
+            <p>
+              <strong>Height: </strong>
+              {product.dimensions.height}mm
+            </p>
+            <p>
+              <strong>Depth: </strong>
+              {product.dimensions.depth}mm
+            </p>
           </p>
         </div>
-      ))}
-      <p>
-        <strong>WarrantyInformation:</strong> {product.warrantyInformation}
-      </p>
-      <p>
-        <strong>Stock:</strong> {product.stock}
-      </p>
-      <p>
-        <strong>ShippingInformationr:</strong> {product.shippingInformation}
-      </p>
+        <p>
+          <strong>Description:</strong> {product.description}
+        </p>
+        <div className="border p-2 space-y-2">
+          <div className="space-y-2">
+            <p className="text-lg font-bold text-green-700">
+              In Stock: {product.stock}
+            </p>
+            <QuantityDropdown price={product.price} />
+            <button className="w-full text-black bg-amber-400 py-1 rounded-lg">
+              Add to cart
+            </button>
+            <button className="w-full text-white bg-black py-1 rounded-lg">
+              Buy Now
+            </button>
+            <p>
+              <strong>ReturnPolicy:</strong> {product.returnPolicy}
+            </p>
+
+            <p>
+              <strong>ReturnPolicy:</strong> {product.returnPolicy}
+            </p>
+            <p>
+              <strong>WarrantyInformation:</strong>{" "}
+              {product.warrantyInformation}
+            </p>
+            <p>
+              <strong>ShippingInformationr:</strong>{" "}
+              {product.shippingInformation}
+            </p>
+          </div>
+          <details className="group">
+            <summary
+              className="list-none cursor-pointer flex items-center text-blue-600"
+              onClick={() => {
+                setIsOpen(!isOpen);
+              }}>
+              <div className="flex items-center space-x-2 cursor-pointer">
+                {isOpen ? (
+                  <>
+                    <span>Hide reviews</span>
+                    <BiUpArrowAlt className="mt-1" />
+                  </>
+                ) : (
+                  <>
+                    <span>See reviews</span>
+                    <BiDownArrowAlt className="mt-1" />
+                  </>
+                )}
+              </div>
+            </summary>
+            {product.reviews.map((review: any, index: number) => (
+              <div key={index} className="bg-gray-100 p-1 rounded-md my-2">
+                <p className="flex justify-between items-center">
+                  <strong>User {index}</strong>
+                  <Rating rating={review.rating} />
+                </p>
+
+                <p>{review.comment}</p>
+              </div>
+            ))}
+          </details>
+        </div>
+      </div>
     </div>
   );
 };

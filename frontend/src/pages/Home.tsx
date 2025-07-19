@@ -7,6 +7,15 @@ import ProductCard from "../components/ProductCard";
 import axios from "axios";
 import Rating from "../components/Rating";
 
+interface ProductCardProps {
+  title: string;
+  rating: number;
+  price: number;
+  discountPercentage: number;
+  images: string[];
+  id: number;
+}
+
 const Home = () => {
   const recommendedBtns: string[] = ["bghyu", "mjul", "fgty", "vfty", "dfgf"];
   const [data, setData] = useState<any>("");
@@ -74,18 +83,9 @@ const Home = () => {
               <SortBtn />
             </section>
             <section className="grid grid-cols-2 gap-5 mt-5">
-              {/* <div className="bg-black h-30"></div>
-              <div className="bg-black h-30"></div>
-              <div className="bg-black h-30"></div>
-              <div className="bg-black h-30"></div>
-              <div className="bg-black h-30"></div>
-              <div className="bg-black h-30"></div>
-              <div className="bg-black h-30"></div>
-              <div className="bg-black h-30"></div>
-              <div className="bg-black h-30"></div> */}
               {data &&
-                data.map((product: any, i: number) => (
-                  <ProductCard data={product} key={i} />
+                data.map((product: ProductCardProps, i: number) => (
+                  <ProductCard key={i} {...product} />
                 ))}
             </section>
           </section>

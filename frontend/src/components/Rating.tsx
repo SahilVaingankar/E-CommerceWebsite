@@ -1,17 +1,17 @@
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import img from "../assets/Gold_Star.svg.png";
 
-const Rating = (rating: { rating: any }) => {
+const Rating = ({ rating }: { rating: number }) => {
   // for Mask method
-  const width = rating.rating * 20;
+  const width = rating * 20;
 
   // for Traditional method
   const stars = [];
 
   for (let i = 1; i <= 5; i++) {
-    if (rating.rating >= i) {
+    if (rating >= i) {
       stars.push(<BsStarFill key={i} className="text-amber-400" />);
-    } else if (rating.rating >= i - 0.5) {
+    } else if (rating >= i - 0.5) {
       stars.push(<BsStarHalf key={i} className="text-amber-400" />);
     } else {
       stars.push(<BsStar key={i} className="text-amber-400" />);
