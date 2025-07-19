@@ -30,6 +30,15 @@ const CartPage = () => {
   const increment = (title: string) => updateQuantity(title, 1);
   const decrement = (title: string) => updateQuantity(title, -1);
 
+  const remove = (title: string) => {
+    const removeItems = cartItems.filter(
+      (item: CartItems) => item.title !== title
+    );
+
+    setCartItems(removeItems);
+    localStorage.setItem("cartItems", JSON.stringify(removeItems));
+  };
+
   return (
     <div className="flex justify-center items-center h-screen w-full p-2 bg-gradient-to-br from-indigo-500 to-lime-500">
       <div className="flex flex-col gap-1 mt-15 bg-white w-full p-2 min-h-100 overflow-y-auto shadow-2xl">
@@ -69,7 +78,11 @@ const CartPage = () => {
                   <p className="text-sm font-semibold">
                     ${item.price * (item.quantity || 1)}
                   </p>
-                  <div className="text-red-500 border-b text-xs">Remove</div>
+                  <div
+                    className="text-red-500 border-b text-xs"
+                    onClick={() => remove(item.title)}>
+                    Remove
+                  </div>
                 </div>
               </div>
             ))
