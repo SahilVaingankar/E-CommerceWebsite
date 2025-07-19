@@ -8,29 +8,27 @@ interface CartItems {
 }
 
 const CartPage = () => {
-  const [quantity, setQuantity] = useState<number>(1);
-  const storedCartItems = localStorage.getItem("cartItems");
-  const cartItems: CartItems[] = storedCartItems
-    ? JSON.parse(storedCartItems)
-    : [];
+  const [cartItems, setCartItems] = useState<CartItems[]>(() => {
+    const stored = localStorage.getItem("cartItems");
+    return stored ? JSON.parse(stored) : [];
+  });
 
-  const increment = (title: string) => {
+  const updateQuantity = (title: string, change: number) => {
     const updatedItems = cartItems.map((item: CartItems) =>
-      item.title === title ? { ...item, quantity: item.quantity! - 1 } : item
+      item.title === title
+        ? {
+            ...item,
+            quantity: Math.min(30, Math.max(1, item.quantity! + change)),
+          }
+        : item
     );
 
+    setCartItems(updatedItems);
     localStorage.setItem("cartItems", JSON.stringify(updatedItems));
-    setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
-  const decrement = (title: string) => {
-    const updatedItems = cartItems.map((item: CartItems) =>
-      item.title === title ? { ...item, quantity: item.quantity! - 1 } : item
-    );
-
-    localStorage.setItem("cartItems", JSON.stringify(updatedItems));
-    setQuantity((prevQuantity) => prevQuantity - 1);
-  };
+  const increment = (title: string) => updateQuantity(title, 1);
+  const decrement = (title: string) => updateQuantity(title, -1);
 
   return (
     <div className="flex justify-center items-center h-screen w-full p-2 bg-gradient-to-br from-indigo-500 to-lime-500">
@@ -60,7 +58,7 @@ const CartPage = () => {
                     }}>
                     -
                   </button>
-                  <p>{item.quantity || quantity}</p>
+                  <p>{item.quantity}</p>
                   <button
                     className="bg-gray-300 rounded-full h-7 w-7 pb-1"
                     onClick={() => increment(item.title)}>
@@ -69,7 +67,7 @@ const CartPage = () => {
                 </div>
                 <div className="flex flex-col text-center">
                   <p className="text-sm font-semibold">
-                    ${item.price * (item.quantity || quantity)}
+                    ${item.price * (item.quantity || 1)}
                   </p>
                   <div className="text-red-500 border-b text-xs">Remove</div>
                 </div>
