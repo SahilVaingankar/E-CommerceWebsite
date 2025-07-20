@@ -40,8 +40,8 @@ const CartPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen w-full p-2 bg-gradient-to-br from-indigo-500 to-lime-500">
-      <div className="flex flex-col gap-1 mt-15 bg-white w-full max-w-300 p-2 md:p-4 min-h-100 overflow-y-auto shadow-2xl">
+    <div className="flex justify-center items-center h-screen w-full px-2 py-15 bg-gradient-to-br from-indigo-500 to-lime-500">
+      <div className="flex flex-col gap-1 mt-15 bg-white h-full w-full max-w-300 p-2 md:p-4  overflow-y-auto shadow-2xl">
         <div className="flex justify-between">
           {" "}
           <h1>Shopping Cart</h1>
