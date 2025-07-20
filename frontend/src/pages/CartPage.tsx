@@ -8,6 +8,8 @@ interface CartItems {
 }
 
 const CartPage = () => {
+  const [total, setTotal] = useState<number>(0);
+
   const [cartItems, setCartItems] = useState<CartItems[]>(() => {
     const stored = localStorage.getItem("cartItems");
     return stored ? JSON.parse(stored) : [];
@@ -56,7 +58,7 @@ const CartPage = () => {
         <div className="flex flex-col p-2 gap-2 grow h-10 border overflow-y-auto">
           {cartItems.length > 0 ? (
             cartItems.map((item) => (
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-4 gap-2 items-center">
                 <img src={item.images[0]} alt="" className="h-15 w-auto" />
                 <h2 className="text-xs font-black">{item.title}</h2>
                 <div className="flex gap-1">
@@ -89,10 +91,21 @@ const CartPage = () => {
               </div>
             ))
           ) : (
-            <p className="text-gray-500 flex justify-center items-center">
+            <p className="text-gray-500 flex justify-center items-center w-full h-full">
               Cart is Empty
             </p>
           )}
+          <div className="grid grid-cols-4 gap-2 items-center font-semibold border-t-2">
+            <p className="col-start-3 ">
+              Items: {cartItems.reduce((acc, curr) => acc + curr.quantity!, 0)}
+            </p>
+            <p className="col-start-4 text-center ">
+              $
+              {cartItems
+                .reduce((acc, curr) => acc + curr.price * curr.quantity!, 0)
+                .toFixed(2)}
+            </p>
+          </div>
         </div>
         <button className="ms-auto bg-sky-300 py-1 px-2 rounded-lg">
           CheckOut
