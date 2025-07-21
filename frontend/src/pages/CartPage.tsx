@@ -1,4 +1,7 @@
 import { useState } from "react";
+import PurchaseForm from "../components/PurchaseForm";
+import { toast } from "react-toastify";
+import { useStore } from "../stores/store.ts";
 
 interface CartItems {
   images: string[];
@@ -8,7 +11,7 @@ interface CartItems {
 }
 
 const CartPage = () => {
-  const [total, setTotal] = useState<number>(0);
+  const { openPurchaseForm, isPurchaseFormOpen } = useStore();
 
   const [cartItems, setCartItems] = useState<CartItems[]>(() => {
     const stored = localStorage.getItem("cartItems");
@@ -48,9 +51,10 @@ const CartPage = () => {
           {" "}
           <h1>Shopping Cart</h1>
           <p
-            className="text-red-500"
+            className="text-red-500 cursor-pointer"
             onClick={() => {
               localStorage.removeItem("cartItems");
+              setCartItems([]);
             }}>
             Remove all
           </p>
@@ -63,7 +67,7 @@ const CartPage = () => {
                 <h2 className="text-xs font-black">{item.title}</h2>
                 <div className="flex gap-1">
                   <button
-                    className="bg-gray-300 rounded-full h-7 w-7 pb-1 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    className="bg-gray-300 rounded-full h-7 w-7 pb-1 disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer"
                     onClick={() => {
                       decrement(item.title);
                     }}
@@ -72,7 +76,7 @@ const CartPage = () => {
                   </button>
                   <p>{item.quantity}</p>
                   <button
-                    className="bg-gray-300 rounded-full h-7 w-7 pb-1"
+                    className="bg-gray-300 rounded-full h-7 w-7 pb-1 disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer"
                     onClick={() => increment(item.title)}
                     disabled={item.quantity! > 30}>
                     +
@@ -82,7 +86,7 @@ const CartPage = () => {
                 <p className="flex flex-col text-center text-sm font-semibold">
                   ${item.price * (item.quantity || 1)}
                   <span
-                    className="m-auto text-red-500 border-b text-xs"
+                    className="m-auto text-red-500 border-b text-xs cursor-pointer"
                     onClick={() => remove(item.title)}>
                     Remove
                   </span>
@@ -95,6 +99,9 @@ const CartPage = () => {
               Cart is Empty
             </p>
           )}
+          {/* <div className="grid grid-cols-4">
+            <div className=" border-t-2 col-start-2 col-span-3"></div>
+          </div> */}
           <div className="grid grid-cols-4 gap-2 items-center font-semibold border-t-2">
             <p className="col-start-3 ">
               Items: {cartItems.reduce((acc, curr) => acc + curr.quantity!, 0)}
@@ -106,10 +113,22 @@ const CartPage = () => {
                 .toFixed(2)}
             </p>
           </div>
+          <p className="text-xs">
+            (Please check the price before purchasing, the price shown in cart
+            might be outdated)
+          </p>
         </div>
-        <button className="ms-auto bg-sky-300 py-1 px-2 rounded-lg">
+        <button
+          className="ms-auto bg-sky-300 py-1 px-2 rounded-lg cursor-pointer"
+          onClick={() => {
+            console.log(openPurchaseForm);
+            cartItems.length > 0
+              ? openPurchaseForm()
+              : toast.error("Cart is Empty");
+          }}>
           CheckOut
         </button>
+        {isPurchaseFormOpen ? <PurchaseForm /> : ""}
       </div>
     </div>
   );
