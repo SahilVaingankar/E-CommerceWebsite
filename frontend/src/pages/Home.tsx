@@ -6,6 +6,7 @@ import Sidebar from "../components/Sidebar";
 import ProductCard from "../components/ProductCard";
 import axios from "axios";
 import Rating from "../components/Rating";
+import { useStore } from "../stores/store";
 
 interface ProductCardProps {
   title: string;
@@ -18,7 +19,8 @@ interface ProductCardProps {
 
 const Home = () => {
   const recommendedBtns: string[] = ["bghyu", "mjul", "fgty", "vfty", "dfgf"];
-  const [data, setData] = useState<any>("");
+  // const [data, setData] = useState<any>("");
+  const { filterData, productData, setData } = useStore();
   const [selectedRecommendation, setselectedRecommendation] =
     useState<string>("");
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -83,15 +85,18 @@ const Home = () => {
               <SortBtn />
             </section>
             <section className="grid grid-cols-2 gap-5 mt-5">
-              {data &&
-                data.map((product: ProductCardProps, i: number) => (
-                  <ProductCard key={i} {...product} />
-                ))}
+              {filterData.length > 0
+                ? filterData.map((product: ProductCardProps, i: number) => (
+                    <ProductCard key={i} {...product} />
+                  ))
+                : productData.map((product: ProductCardProps, i: number) => (
+                    <ProductCard key={i} {...product} />
+                  ))}
             </section>
           </section>
         </main>
       </div>
-      <Rating rating={data} />
+      {/* <Rating rating={productData} /> */}
     </>
   );
 };

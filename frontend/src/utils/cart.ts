@@ -5,7 +5,7 @@ interface CartItems {
   quantity?: number;
 }
 
-export const addToCart = (item: CartItems) => {
+export const addToCart = (item: CartItems, quantity?: number) => {
   const storedCartItems = localStorage.getItem("cartItems");
   const cartItems: CartItems[] = storedCartItems
     ? JSON.parse(storedCartItems)
@@ -18,10 +18,10 @@ export const addToCart = (item: CartItems) => {
   const updatedCart = itemExists
     ? cartItems.map((cartItem) =>
         cartItem.title === item.title
-          ? { ...cartItem, quantity: cartItem.quantity! + 1 }
+          ? { ...cartItem, quantity: cartItem.quantity! + (quantity || 1) }
           : cartItem
       )
-    : [...cartItems, { ...item, quantity: item.quantity ?? 1 }];
+    : [...cartItems, { ...item, quantity: item.quantity ?? (quantity || 1) }];
 
   localStorage.setItem("cartItems", JSON.stringify(updatedCart));
 };

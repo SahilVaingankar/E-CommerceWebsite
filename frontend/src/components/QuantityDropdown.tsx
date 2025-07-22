@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { useStore } from "../stores/store";
 
 const QuantityDropdown = ({ price }: { price: number }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [quantity, setQuantity] = useState<number>(1);
+  // const [quantity, setQuantity] = useState<number>(1);
+  const { cartPageQuantity, setCartPageQuantity } = useStore();
   return (
     <>
       {/* {" "}
@@ -35,7 +37,7 @@ const QuantityDropdown = ({ price }: { price: number }) => {
                   value={i + 1}
                   className="px-1 hover:bg-gray-100"
                   onClick={() => {
-                    setQuantity(i + 1);
+                    setCartPageQuantity(i + 1);
                   }}>
                   {i + 1}
                 </li>
@@ -43,12 +45,14 @@ const QuantityDropdown = ({ price }: { price: number }) => {
           </ul>
         ) : (
           <div className="flex items-center justify-between h-full w-full bg-gray-200 py-1 px-5">
-            <h2>Quantity: {quantity}</h2>
+            <h2>Quantity: {cartPageQuantity}</h2>
             <MdKeyboardArrowDown />
           </div>
         )}
       </div>
-      <p className="ml-5 font-black">Total Price: ${price * quantity}</p>
+      <p className="ml-5 font-black">
+        Total Price: ${price * cartPageQuantity}
+      </p>
     </>
   );
 };
