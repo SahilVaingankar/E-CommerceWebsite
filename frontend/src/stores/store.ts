@@ -3,8 +3,10 @@ import { create } from "zustand";
 interface Store {
   productData: any;
   filterData: any;
+  filterSuggestions: any;
   setData: (data: any) => void;
   setFilterData: (filterData: any) => void;
+  setFilterSuggestions: (filterData: any) => void;
   searchQuery: (query: string) => void;
   purchaseFormContext: string | null;
   openPurchaseForm: (context: string) => void;
@@ -16,10 +18,12 @@ interface Store {
 export const useStore = create<Store>((set, get) => ({
   productData: [],
   filterData: [],
+  filterSuggestions: [],
   setData: (data) => set({ productData: data }),
+  setFilterSuggestions: (suggestions) =>
+    set({ filterSuggestions: suggestions }),
   setFilterData: (filterData) => set({ productData: filterData }),
   searchQuery: (query) => {
-    console.log("Running searchQuery with:", query); // ← Add this
     const { productData } = get();
     const result = productData.filter(
       (item: any) =>
