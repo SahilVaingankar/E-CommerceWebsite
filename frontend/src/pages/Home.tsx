@@ -5,22 +5,11 @@ import SortBtn from "../components/SortBtn";
 import Sidebar from "../components/Sidebar";
 import ProductCard from "../components/ProductCard";
 import axios from "axios";
-import Rating from "../components/Rating";
 import { useStore } from "../stores/store";
-
-interface ProductCardProps {
-  title: string;
-  rating: number;
-  price: number;
-  discountPercentage: number;
-  images: string[];
-  id: number;
-}
 
 const Home = () => {
   const recommendedBtns: string[] = ["bghyu", "mjul", "fgty", "vfty", "dfgf"];
-  // const [data, setData] = useState<any>("");
-  const { filterData, productData, setData } = useStore();
+  const { productData, setAllProducts } = useStore();
   const [selectedRecommendation, setselectedRecommendation] =
     useState<string>("");
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -29,7 +18,7 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("https://dummyjson.com/products");
-        setData(response.data.products); // usually you want `response.data`
+        setAllProducts(response.data.products);
         console.log(response.data.products);
       } catch (error) {
         console.log(error);
@@ -85,18 +74,13 @@ const Home = () => {
               <SortBtn />
             </section>
             <section className="grid grid-cols-2 gap-5 mt-5">
-              {filterData.length > 0
-                ? filterData.map((product: ProductCardProps, i: number) => (
-                    <ProductCard key={i} {...product} />
-                  ))
-                : productData.map((product: ProductCardProps, i: number) => (
-                    <ProductCard key={i} {...product} />
-                  ))}
+              {productData.map((product, i: number) => (
+                <ProductCard key={i} {...product} />
+              ))}
             </section>
           </section>
         </main>
       </div>
-      {/* <Rating rating={productData} /> */}
     </>
   );
 };
