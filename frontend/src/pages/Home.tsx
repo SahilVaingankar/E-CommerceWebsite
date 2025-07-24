@@ -9,7 +9,7 @@ import { useStore } from "../stores/store";
 
 const Home = () => {
   const recommendedBtns: string[] = ["bghyu", "mjul", "fgty", "vfty", "dfgf"];
-  const { productData, setAllProducts } = useStore();
+  const { displayProducts, setAllProducts } = useStore();
   const [selectedRecommendation, setselectedRecommendation] =
     useState<string>("");
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -74,7 +74,7 @@ const Home = () => {
               <SortBtn />
             </section>
             <section className="grid grid-cols-2 gap-5 mt-5">
-              {productData.map((product, i: number) => (
+              {displayProducts.map((product, i: number) => (
                 <ProductCard key={i} {...product} />
               ))}
             </section>
