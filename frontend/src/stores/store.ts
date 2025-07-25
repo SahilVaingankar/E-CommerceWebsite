@@ -81,7 +81,7 @@ export const useStore = create<Store>((set, get) => ({
       }
     }
 
-    set({ searchSuggestions: result });
+    set({ searchSuggestions: result.slice(0, 8) });
   },
 
   filterProducts: (query) => {
