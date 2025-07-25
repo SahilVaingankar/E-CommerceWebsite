@@ -43,26 +43,70 @@ export const useStore = create<Store>((set, get) => ({
     set({ allProducts: data, productData: data, displayProducts: data }),
 
   filterSuggestions: (query) => {
-    const result = get().allProducts.filter(
+    // const lowerQuery = query.toLowerCase();
+    // let result: any = [];
+    let result = get().allProducts.filter(
       (item) =>
         item.title
           .toLowerCase()
           .split(" ")
           .some((word) => word.startsWith(query.toLowerCase())) ||
-        item.title.toLowerCase().startsWith(query.toLowerCase())
+        (query.length > 1 &&
+          item.title.toLowerCase().startsWith(query.toLowerCase()))
     );
+
+    // if (query.length === 1) {
+    //   result = get().allProducts.filter((item) =>
+    //     item.title
+    //       .toLowerCase()
+    //       .split(" ")
+    //       .some((word) => word.startsWith(lowerQuery))
+    //   );
+    // } else if (query.length > 1) {
+    //   result = get().allProducts.filter((item) =>
+    //     item.title.toLowerCase().startsWith(lowerQuery)
+    //   );
+    // }
+
+    // Fallback: If nothing found, check for partial includes
+    if (result.length === 0) {
+      for (let index = 0; index < query.length - 1; index++) {
+        const slicedQuery = query.slice(index);
+        result = get().allProducts.filter((item) =>
+          item.title.toLowerCase().includes(slicedQuery)
+        );
+        if (result.length > 0) {
+          break; // stop once a match is found
+        }
+      }
+    }
+
     set({ searchSuggestions: result });
   },
 
   filterProducts: (query) => {
-    const result = get().allProducts.filter(
+    let result = get().allProducts.filter(
       (item) =>
         item.title
           .toLowerCase()
           .split(" ")
           .some((word) => word.startsWith(query.toLowerCase())) ||
-        item.title.toLowerCase().startsWith(query.toLowerCase())
+        (query.length > 1 &&
+          item.title.toLowerCase().startsWith(query.toLowerCase()))
     );
+
+    if (result.length === 0) {
+      for (let index = 0; index < query.length - 1; index++) {
+        const slicedQuery = query.slice(index);
+        result = get().allProducts.filter((item) =>
+          item.title.toLowerCase().includes(slicedQuery)
+        );
+        if (result.length > 0) {
+          break; // stop once a match is found
+        }
+      }
+    }
+
     set({ productData: result });
     set({ displayProducts: get().productData });
   },
