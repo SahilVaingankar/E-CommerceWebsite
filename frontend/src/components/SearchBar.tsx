@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useStore } from "../stores/store";
 
@@ -8,6 +8,16 @@ export const SearchBar = () => {
   const [typedQuery, setTypedQuery] = useState("");
   const [currentIndex, setCurrentIndex] = useState(-1);
   const { searchSuggestions, filterSuggestions, filterProducts } = useStore();
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      filterSuggestions(query.trim());
+    }, 500);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [query]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -54,14 +64,19 @@ export const SearchBar = () => {
     setTypedQuery(val);
     setQuery(val);
     setCurrentIndex(-1);
-    filterSuggestions(val.trim());
+    // filterSuggestions(val.trim());
   };
 
   const displaySearchSuggestions = (item: any) => {
     const title = item.title;
     const queryTrimmed = query.trim().toLowerCase();
     const titleLower = title.toLowerCase();
-    const matchIndex = titleLower.indexOf(queryTrimmed);
+    let matchIndex;
+    if (queryTrimmed.length === 1) {
+      matchIndex = title.indexOf(query.toUpperCase());
+    } else {
+      matchIndex = titleLower.indexOf(queryTrimmed);
+    }
 
     if (matchIndex === -1) {
       return title;
