@@ -4,6 +4,7 @@ import { useStore } from "../stores/store";
 
 export const SearchBar = () => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [showOverlay, setShowOverlay] = useState(false);
   const [query, setQuery] = useState("");
   const [typedQuery, setTypedQuery] = useState("");
   const [currentIndex, setCurrentIndex] = useState(-1);
@@ -95,6 +96,10 @@ export const SearchBar = () => {
     );
   };
 
+  useEffect(() => {
+    query.length > 0 && setShowOverlay(true);
+  }, [query]);
+
   return (
     <div className="relative flex grow gap-1 items-center h-[30px] min-w-[166px] rounded-[25px] border-1">
       <div className="flex items-center justify-center h-[30px] w-8 rounded-l-[25px] border-r-1">
@@ -109,8 +114,10 @@ export const SearchBar = () => {
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
-      {query.length > 0 && searchSuggestions.length > 0 ? (
-        <div className="fixed inset-0 bg-black/50 top-12">
+      {showOverlay && query.length > 0 && searchSuggestions.length > 0 ? (
+        <div
+          className="fixed inset-0 bg-black/50 top-12"
+          onClick={() => setShowOverlay(false)}>
           <ul className="bg-white py-4">
             {searchSuggestions.map((item, i) => (
               <li
@@ -175,12 +182,15 @@ export const SearchBar = () => {
           </ul>
         </div>
       ) : (
-        <div
-          className={`${
-            query.length > 0 ? "fixed" : "hidden"
-          } inset-0 bg-black/50 top-12 flex justify-center items-center`}>
-          <p className="bg-white px-4 py-2">No results found</p>
-        </div>
+        showOverlay && (
+          <div
+            className={`${
+              query.length > 0 ? "fixed" : "hidden"
+            } inset-0 bg-black/50 top-12 flex justify-center items-center`}
+            onClick={() => setShowOverlay(false)}>
+            <p className="bg-white px-4 py-2">No results found</p>
+          </div>
+        )
       )}
     </div>
   );
