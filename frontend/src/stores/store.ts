@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 interface ProductCardProps {
+  category: string;
   trim(): string;
   title: string;
   rating: number;
@@ -13,16 +14,23 @@ interface ProductCardProps {
 }
 
 interface Store {
-  allProducts: ProductCardProps[]; // Master data from API
-  productData: ProductCardProps[]; // Displayed on the main page
-  searchSuggestions: ProductCardProps[]; // Used for search dropdown
-  sortedProducts: ProductCardProps[];
+  allProducts: ProductCardProps[];
+  productData: ProductCardProps[];
+  searchSuggestions: ProductCardProps[];
   displayProducts: ProductCardProps[];
+
+  filters: {
+    category: string | null;
+    price: { min: number; max: number };
+  };
 
   setAllProducts: (data: ProductCardProps[]) => void;
   filterProducts: (query: string) => void;
+  setSidebarFilterProducts: (query: string) => void;
   sortProducts: (query: "price" | "rating" | "reviews" | "none") => void;
+  setPriceRange: (range: { min: number; max: number }) => void;
   filterSuggestions: (query: string) => void;
+  applyFilters: () => void;
 
   purchaseFormContext: string | null;
   openPurchaseForm: (context: string) => void;
@@ -36,15 +44,21 @@ export const useStore = create<Store>((set, get) => ({
   allProducts: [],
   productData: [],
   searchSuggestions: [],
-  sortedProducts: [],
   displayProducts: [],
 
+  filters: {
+    category: null,
+    price: { min: 0, max: Infinity },
+  },
+
   setAllProducts: (data) =>
-    set({ allProducts: data, productData: data, displayProducts: data }),
+    set({
+      allProducts: data,
+      productData: data,
+      displayProducts: data,
+    }),
 
   filterSuggestions: (query) => {
-    // const lowerQuery = query.toLowerCase();
-    // let result: any = [];
     let result = get().allProducts.filter(
       (item) =>
         item.title
@@ -55,29 +69,13 @@ export const useStore = create<Store>((set, get) => ({
           item.title.toLowerCase().startsWith(query.toLowerCase()))
     );
 
-    // if (query.length === 1) {
-    //   result = get().allProducts.filter((item) =>
-    //     item.title
-    //       .toLowerCase()
-    //       .split(" ")
-    //       .some((word) => word.startsWith(lowerQuery))
-    //   );
-    // } else if (query.length > 1) {
-    //   result = get().allProducts.filter((item) =>
-    //     item.title.toLowerCase().startsWith(lowerQuery)
-    //   );
-    // }
-
-    // Fallback: If nothing found, check for partial includes
     if (result.length === 0) {
       for (let index = 0; index < query.length - 1; index++) {
         const slicedQuery = query.slice(index);
         result = get().allProducts.filter((item) =>
           item.title.toLowerCase().includes(slicedQuery)
         );
-        if (result.length > 0) {
-          break; // stop once a match is found
-        }
+        if (result.length > 0) break;
       }
     }
 
@@ -101,36 +99,61 @@ export const useStore = create<Store>((set, get) => ({
         result = get().allProducts.filter((item) =>
           item.title.toLowerCase().includes(slicedQuery)
         );
-        if (result.length > 0) {
-          break; // stop once a match is found
-        }
+        if (result.length > 0) break;
       }
     }
 
-    set({ productData: result });
-    set({ displayProducts: get().productData });
+    set({ productData: result, displayProducts: result });
+  },
+
+  setSidebarFilterProducts: (query) => {
+    set((state) => ({
+      filters: {
+        ...state.filters,
+        category: query === "none" ? null : query,
+      },
+    }));
+    get().applyFilters();
+  },
+
+  setPriceRange: ({ min, max }) => {
+    set((state) => ({
+      filters: {
+        ...state.filters,
+        price: { min, max },
+      },
+    }));
+    get().applyFilters();
+  },
+
+  applyFilters: () => {
+    const { allProducts, filters } = get();
+    let filtered = [...allProducts];
+
+    if (filters.category) {
+      filtered = filtered.filter((item) => item.category === filters.category);
+    }
+
+    const { min, max } = filters.price;
+    filtered = filtered.filter((item) => {
+      const discounted = Math.floor(
+        item.price - (item.price * item.discountPercentage) / 100
+      );
+      return discounted >= min && discounted <= max;
+    });
+
+    set({ displayProducts: filtered });
   },
 
   sortProducts: (query) => {
-    console.log(query);
+    const products = get().displayProducts;
 
-    let result: ProductCardProps[] = get().productData;
-    // result =
-    query === "none"
-      ? set({
-          displayProducts: result,
-        })
-      : set({
-          displayProducts: result.slice().sort((a, b) => b[query] - a[query]),
-        });
-
-    // let result = get().productData;
-
-    // if (query !== "none") {
-    //   result = result.slice().sort((a, b) => b[query] - a[query]);
-    // }
-
-    // set({ productData: result });
+    if (query === "none") {
+      get().applyFilters(); // restore the original filtered state
+    } else {
+      const sorted = [...products].sort((a, b) => b[query] - a[query]);
+      set({ displayProducts: sorted });
+    }
   },
 
   purchaseFormContext: null,
