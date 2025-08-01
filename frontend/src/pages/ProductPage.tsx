@@ -157,7 +157,7 @@ const ProductPage: React.FC = () => {
                 className="w-full text-black bg-amber-400 py-1 rounded-lg active:bg-amber-300"
                 onClick={() => {
                   addToCart(product, cartPageQuantity), setCartPageQuantity(1);
-                  toast.success("Product added to cart successfuly!");
+                  toast.success(`${product.title} is added to the cart`);
                 }}>
                 Add to cart
               </button>

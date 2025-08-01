@@ -4,6 +4,7 @@ import { FaCartPlus } from "react-icons/fa";
 import type React from "react";
 import { addToCart } from "../utils/cart";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 interface ProductCardProps {
   title: string;
@@ -56,10 +57,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </span>
         </p>
         <FaCartPlus
-          className="h-4 w-4 cursor-pointer"
+          className="h-4 w-4 cursor-pointer active:text-gray-500"
           onClick={() => {
             console.log(title, "Added to cart");
             addToCart({ images, title, price });
+            toast.success(`${title} is added to the cart`);
           }}
         />
       </div>
