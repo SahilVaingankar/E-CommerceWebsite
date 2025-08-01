@@ -52,10 +52,10 @@ const CartPage = () => {
   return (
     <div className="flex justify-center items-center h-screen w-full px-2 py-15 bg-gradient-to-br from-indigo-500 to-lime-500">
       <BiArrowBack
-        className="hidden sm:block absolute top-15 left-1 h-10 w-10 rounded-full bg-white/50 cursor-pointer hover:bg-gray-200"
+        className="hidden sm:block absolute top-13 left-1 h-10 w-10 rounded-full bg-white/50 cursor-pointer hover:bg-gray-200"
         onClick={() => navigate(-1)}
       />
-      <div className="flex flex-col gap-1 mt-15 bg-white h-full w-full max-w-300 p-2 md:p-4  overflow-y-auto shadow-2xl">
+      <div className="flex flex-col gap-1 mt-17 bg-white h-full w-full max-w-300 p-2 md:p-4  overflow-y-auto shadow-2xl">
         <div className="flex justify-between">
           {" "}
           <h1>Shopping Cart</h1>

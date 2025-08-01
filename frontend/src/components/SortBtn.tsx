@@ -19,7 +19,9 @@ const SortBtn = () => {
         onClick={() => {
           setIsClicked(true);
         }}
-        className="flex justify-center items-center relative group py-1 px-4 rounded-[50px] border cursor-pointer">
+        className={`flex justify-center items-center relative group py-1 px-4 rounded-[50px] border cursor-pointer hover:bg-gray-100 ${
+          isClicked ? "bg-gray-100" : "bg-white"
+        }`}>
         <BiSort className="" /> Sort
         <div
           className={`absolute top-8 ${

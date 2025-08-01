@@ -18,6 +18,14 @@ interface Store {
   productData: ProductCardProps[];
   searchSuggestions: ProductCardProps[];
   displayProducts: ProductCardProps[];
+  isSidebarOpen: boolean;
+  min: number | undefined;
+  max: number | undefined;
+  selectedCategory: string;
+  setMin: (min: number | undefined) => void;
+  setMax: (max: number | undefined) => void;
+  setSelectedCategory: (category: string) => void;
+  reset: () => void;
 
   filters: {
     category: string | null;
@@ -31,6 +39,7 @@ interface Store {
   setPriceRange: (range: { min: number; max: number }) => void;
   filterSuggestions: (query: string) => void;
   applyFilters: () => void;
+  setIsSidebarOpen: () => void;
 
   purchaseFormContext: string | null;
   openPurchaseForm: (context: string) => void;
@@ -45,6 +54,23 @@ export const useStore = create<Store>((set, get) => ({
   productData: [],
   searchSuggestions: [],
   displayProducts: [],
+  isSidebarOpen: false,
+  min: 0,
+  max: Infinity,
+  selectedCategory: "All",
+  setMin: (min) => set({ min }),
+  setMax: (max) => set({ max }),
+  setSelectedCategory: (selectedCategory) => set({ selectedCategory }),
+  reset: () => {
+    // const { setSidebarFilterProducts, displayProducts, filterProducts } = get(); // ✅ safely get the method
+    set({
+      selectedCategory: "All",
+      min: undefined,
+      max: undefined,
+    });
+    // setSidebarFilterProducts("All");
+    // set({ displayProducts: filterProducts });
+  },
 
   filters: {
     category: null,
@@ -110,7 +136,7 @@ export const useStore = create<Store>((set, get) => ({
     set((state) => ({
       filters: {
         ...state.filters,
-        category: query === "none" ? null : query,
+        category: query === "All" ? null : query,
       },
     }));
     get().applyFilters();
@@ -127,8 +153,25 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   applyFilters: () => {
-    const { allProducts, filters } = get();
+    const { allProducts, filters, productData } = get();
+    if (
+      !filters.category &&
+      filters.price.min === 0 &&
+      filters.price.max === Infinity
+    ) {
+      set({ displayProducts: productData });
+      return;
+    }
+
     let filtered = [...allProducts];
+
+    console.log(
+      filters.category,
+      "settind displayProducts to ",
+      productData,
+      filters.price.min,
+      filters.price.max
+    );
 
     if (filters.category) {
       filtered = filtered.filter((item) => item.category === filters.category);
@@ -156,6 +199,12 @@ export const useStore = create<Store>((set, get) => ({
     }
   },
 
+  setIsSidebarOpen: () => {
+    set((state) => ({
+      isSidebarOpen: !state.isSidebarOpen,
+    }));
+  },
+
   purchaseFormContext: null,
   openPurchaseForm: (context) => set({ purchaseFormContext: context }),
   closePurchaseForm: () => set({ purchaseFormContext: null }),
@@ -163,3 +212,28 @@ export const useStore = create<Store>((set, get) => ({
   cartPageQuantity: 1,
   setCartPageQuantity: (quantity) => set({ cartPageQuantity: quantity }),
 }));
+
+// interface SidebarStore {
+//   min: number | undefined;
+//   max: number | undefined;
+//   selectedCategory: string;
+//   setMin: (min: number | undefined) => void;
+//   setMax: (max: number | undefined) => void;
+//   setSelectedCategory: (category: string) => void;
+//   reset: () => void;
+// }
+
+// export const useSidebarStore = create<SidebarStore>((set) => ({
+//   min: 0,
+//   max: Infinity,
+//   selectedCategory: "All",
+//   setMin: (min) => set({ min }),
+//   setMax: (max) => set({ max }),
+//   setSelectedCategory: (selectedCategory) => set({ selectedCategory }),
+//   reset: () =>
+//     set({
+//       selectedCategory: "All",
+//       min: undefined,
+//       max: undefined,
+//     }),
+// }));

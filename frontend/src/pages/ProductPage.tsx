@@ -61,6 +61,7 @@ import {
 import { addToCart } from "../utils/cart";
 import { useStore } from "../stores/store";
 import PurchaseForm from "../components/PurchaseForm";
+import { toast } from "react-toastify";
 
 interface Product {
   title: string;
@@ -106,7 +107,7 @@ const ProductPage: React.FC = () => {
       <div className="mt-15 p-2 ">
         {" "}
         <BiArrowBack
-          className="hidden sm:block absolute top-15 left-1 h-10 w-10 rounded-full bg-gray-100 cursor-pointer hover:bg-gray-200"
+          className="hidden sm:block absolute top-13 left-1 h-10 w-10 rounded-full bg-gray-100 cursor-pointer hover:bg-gray-200"
           onClick={() => navigate(-1)}
         />
         <img
@@ -153,9 +154,10 @@ const ProductPage: React.FC = () => {
               </p>
               <QuantityDropdown price={product.price} />
               <button
-                className="w-full text-black bg-amber-400 py-1 rounded-lg"
+                className="w-full text-black bg-amber-400 py-1 rounded-lg active:bg-amber-300"
                 onClick={() => {
                   addToCart(product, cartPageQuantity), setCartPageQuantity(1);
+                  toast.success("Product added to cart successfuly!");
                 }}>
                 Add to cart
               </button>

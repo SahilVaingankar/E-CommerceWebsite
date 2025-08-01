@@ -8,7 +8,13 @@ export const SearchBar = () => {
   const [query, setQuery] = useState("");
   const [typedQuery, setTypedQuery] = useState("");
   const [currentIndex, setCurrentIndex] = useState(-1);
-  const { searchSuggestions, filterSuggestions, filterProducts } = useStore();
+  const {
+    searchSuggestions,
+    filterSuggestions,
+    filterProducts,
+    reset,
+    setSidebarFilterProducts,
+  } = useStore();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -22,6 +28,8 @@ export const SearchBar = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
+      reset();
+      setSidebarFilterProducts("All");
       filterProducts(query.trim());
       setQuery("");
       setTypedQuery("");
@@ -126,10 +134,12 @@ export const SearchBar = () => {
                   i === currentIndex ? "bg-gray-100" : ""
                 }`}
                 onClick={() => {
-                  filterProducts(item.title);
                   setQuery("");
                   setTypedQuery("");
                   setCurrentIndex(-1);
+                  setSidebarFilterProducts("All");
+                  filterProducts(item.title);
+                  reset();
                 }}>
                 {/* <span>
                   {item.title.split(" ").map((char, i) =>
