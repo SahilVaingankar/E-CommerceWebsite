@@ -16,7 +16,7 @@ import {
 import { useWindowWidth } from "../hooks/useWindowWidth";
 
 const Home = () => {
-  const mobileSceen = useWindowWidth();
+  const mobileScreen = useWindowWidth();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -74,7 +74,7 @@ const Home = () => {
         <Navbar />
       </header>
 
-      <div className="flex overflow-y-auto w-full">
+      <div className="flex overflow-y-auto w-full dark:bg-black dark:text-white">
         <aside
           className={` fixed top-0 left-0 sm:relative sm:flex sm:flex-col bg-black/50 h-[100svh] z-20 w-0 ${
             isSidebarOpen ? "w-full sm:w-[250px]" : "w-0"
@@ -131,7 +131,7 @@ const Home = () => {
                 </button>
               )}
               <div
-                className={`sm:flex flex-col sm:px-15 md:px-30 ${
+                className={`sm:flex flex-col sm:px-15 md:px-30 w-full ${
                   isSidebarOpen ? "lg:px-0" : "lg:px-30"
                 } sm:w-full justify-center items-center`}>
                 <section className="flex justify-between w-full mt-4">
@@ -147,7 +147,7 @@ const Home = () => {
                   <SortBtn />
                 </section>
                 <section className="grid grid-cols-2 md:grid-cols-3 gap-5 mt-4 w-full">
-                  {mobileSceen
+                  {mobileScreen
                     ? displayProducts.map((product, i: number) => (
                         <ProductCard key={i} {...product} />
                       ))

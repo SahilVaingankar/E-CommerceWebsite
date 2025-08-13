@@ -24,8 +24,12 @@ interface Store {
   selectedCategory: string;
   setMin: (min: number | undefined) => void;
   setMax: (max: number | undefined) => void;
+  darkMode: boolean;
+  toggleMode: () => void;
   setSelectedCategory: (category: string) => void;
   reset: () => void;
+  login: boolean;
+  setLogin: (state: boolean) => void;
 
   filters: {
     category: string | null;
@@ -55,11 +59,29 @@ export const useStore = create<Store>((set, get) => ({
   searchSuggestions: [],
   displayProducts: [],
   isSidebarOpen: false,
-  min: 0,
-  max: Infinity,
+  min: undefined,
+  max: undefined,
   selectedCategory: "All",
   setMin: (min) => set({ min }),
   setMax: (max) => set({ max }),
+  darkMode:
+    // localStorage.getItem("darkMode") === "true" ? true : false,
+    // typeof window !== "undefined" &&
+    localStorage.getItem("darkMode") !== null
+      ? localStorage.getItem("darkMode") === "true"
+      : window.matchMedia("(prefers-color-scheme: dark)").matches,
+
+  toggleMode: () => {
+    set((state) => {
+      const newMode = !state.darkMode;
+      if (typeof window !== "undefined") {
+        localStorage.setItem("darkMode", newMode.toString());
+        document.documentElement.classList.toggle("dark", newMode); // ✅ key line
+      }
+      return { darkMode: newMode };
+    });
+  },
+
   setSelectedCategory: (selectedCategory) => set({ selectedCategory }),
   reset: () => {
     // const { setSidebarFilterProducts, displayProducts, filterProducts } = get(); // ✅ safely get the method
@@ -211,6 +233,9 @@ export const useStore = create<Store>((set, get) => ({
 
   cartPageQuantity: 1,
   setCartPageQuantity: (quantity) => set({ cartPageQuantity: quantity }),
+
+  login: false,
+  setLogin: (state) => set({ login: state }),
 }));
 
 // interface SidebarStore {

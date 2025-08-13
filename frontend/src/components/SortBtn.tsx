@@ -8,7 +8,6 @@ const SortBtn = () => {
   const sortingOptions: ("price" | "rating" | "reviews")[] = [
     "price",
     "rating",
-    "reviews",
   ];
   const [selectedSortingOption, setSelectedSortingOption] =
     useState<string>("");

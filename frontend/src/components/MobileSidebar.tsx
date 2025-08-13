@@ -123,8 +123,8 @@ const MobileSidebar = ({ isClicked }: { isClicked: boolean }) => {
               placeholder="- -"
               className="pl-5 bg-white mx-1 h-9 w-[109px] border text-center placeholder:text-2xl outline-none"
               onChange={(e) => {
-                const val = +e.target.value;
-                setLocalMin(isNaN(val) ? undefined : val);
+                const val = +e.target.value > 0 ? +e.target.value : undefined;
+                setLocalMin(val === undefined || isNaN(val) ? undefined : val);
               }}
             />
           </label>
@@ -137,8 +137,10 @@ const MobileSidebar = ({ isClicked }: { isClicked: boolean }) => {
               placeholder="- -"
               className="pl-5 bg-white mx-1 h-9 w-[109px] border text-center placeholder:text-2xl outline-none"
               onChange={(e) => {
-                const val = +e.target.value;
-                setLocalMax(isNaN(val) ? undefined : val);
+                const val = +e.target.value > 0 ? +e.target.value : undefined;
+                setLocalMax(val === undefined || isNaN(val) ? undefined : val);
+                // const val = +e.target.value;
+                // setLocalMax(isNaN(val) ? undefined : val);
               }}
             />
           </label>
