@@ -1,63 +1,9 @@
-/*
-{ id: 1, title: "Essence Mascara Lash Princess", description: "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.", … }
-​​
-availabilityStatus: "In Stock"
-​​
-brand: "Essence"
-​​
-category: "beauty"
-​​
-description: "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula."
-​​
-dimensions: Object { width: 15.14, height: 13.08, depth: 22.99 }
-​​
-discountPercentage: 10.48
-​​
-id: 1
-​​
-images: Array [ "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp" ]
-​​
-meta: Object { createdAt: "2025-04-30T09:41:02.053Z", updatedAt: "2025-04-30T09:41:02.053Z", barcode: "5784719087687", … }
-​​
-minimumOrderQuantity: 48
-​​
-price: 9.99
-​​
-rating: 2.56
-​​
-returnPolicy: "No return policy"
-​​
-reviews: Array(3) [ {…}, {…}, {…} ]
-​​
-shippingInformation: "Ships in 3-5 business days"
-​​
-sku: "BEA-ESS-ESS-001"
-​​
-stock: 99
-​​
-tags: Array [ "beauty", "mascara" ]
-​​
-thumbnail: "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp"
-​​
-title: "Essence Mascara Lash Princess"
-​​
-warrantyInformation: "1 week warranty"
-​​
-weight: 4
-​​
-<prototype>: Object { … }
-*/
-
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Rating from "../components/Rating";
 import { BiArrowBack, BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 import QuantityDropdown from "../components/QuantityDropdown";
-import {
-  IoArrowBackCircleOutline,
-  IoChevronBackCircleOutline,
-} from "react-icons/io5";
 import { addToCart } from "../utils/cart";
 import { useStore } from "../stores/store";
 import PurchaseForm from "../components/PurchaseForm";
@@ -104,10 +50,10 @@ const ProductPage: React.FC = () => {
 
   return (
     <>
-      <div className="mt-15 p-2 ">
+      <div className="pt-15 p-2 dark:bg-[#201E1E] dark:text-white">
         {" "}
         <BiArrowBack
-          className="hidden sm:block absolute top-13 left-1 h-10 w-10 rounded-full bg-gray-100 cursor-pointer hover:bg-gray-200"
+          className="hidden sm:block absolute top-14 left-1 h-8 w-8 rounded-full bg-gray-100 dark:text-black cursor-pointer hover:bg-gray-200"
           onClick={() => navigate(-1)}
         />
         <img
@@ -121,7 +67,7 @@ const ProductPage: React.FC = () => {
         </div>
         <p className="text-xl font-semibold">$ {product.price}</p>
         <div className="mt-10 space-y-10">
-          <div className="bg-gray-200 p-2">
+          <div className="bg-gray-200 p-2 dark:text-black">
             <p>
               <strong>Brand: </strong> {product.brand}
             </p>
@@ -203,7 +149,9 @@ const ProductPage: React.FC = () => {
                 </div>
               </summary>
               {product.reviews.map((review: any, index: number) => (
-                <div key={index} className="bg-gray-100 p-1 rounded-md my-2">
+                <div
+                  key={index}
+                  className="bg-gray-100 dark:text-black p-1 rounded-md my-2 ">
                   <p className="flex justify-between items-center">
                     <strong>User {index}</strong>
                     <Rating rating={review.rating} />

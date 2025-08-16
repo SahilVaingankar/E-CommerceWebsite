@@ -1,6 +1,6 @@
 import { AiOutlineClose } from "react-icons/ai";
 import { useStore } from "../stores/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const Sidebar = ({ isClicked }: { isClicked: boolean }) => {
   const {
@@ -14,13 +14,9 @@ const Sidebar = ({ isClicked }: { isClicked: boolean }) => {
     selectedCategory,
     setSelectedCategory,
   } = useStore();
-  // const categories = allProducts.map((category) => ([...new Set(category.category)]))
   const categories = [
     ...new Set(allProducts.map((product) => product.category)),
   ];
-  // const [min, setMin] = useState<number | undefined>(0);
-  // const [max, setMax] = useState<number | undefined>(Infinity);
-  // const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const handleRadioChangeCategory = (category: string) => {
     setSelectedCategory(category);
@@ -50,7 +46,7 @@ const Sidebar = ({ isClicked }: { isClicked: boolean }) => {
     <div
       className={`hidden absolute md:flex flex-col justify-around px-2 h-[100svh] w-0 pt-15 pb-2 py-6.5 top-0 left-0 overflow-hidden ${
         isClicked ? "w-[250px] sm:fixed" : "w-[250px] sm:w-[250px]"
-      } bg-[#E8E5E5]`}>
+      } bg-[#D9D9D9]`}>
       <div>
         <div className="flex justify-between text-center items-center h-15">
           <h2 className="ml-1 font-semibold text-[36px]">Categories</h2>
@@ -88,47 +84,6 @@ const Sidebar = ({ isClicked }: { isClicked: boolean }) => {
             </li>
           </ul>
         ))}
-        {/* <li>
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                name="category"
-                className="mr-2 w-[16px] h[16px] cursor-pointer"
-              />
-              electronics
-            </label>
-          </li>
-          <li>
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                name="category"
-                className="mr-2 w-[16px] h[16px] cursor-pointer"
-              />
-              electronics
-            </label>
-          </li>
-          <li>
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                name="category"
-                className="mr-2 w-[16px] h[16px] cursor-pointer"
-              />
-              electronics
-            </label>
-          </li>
-          <li>
-            <label className="cursor-pointer">
-              <input
-                type="radio"
-                name="category"
-                className="mr-2 w-[16px] h[16px] cursor-pointer"
-              />
-              electronics
-            </label>
-          </li>
-        </ul> */}
       </div>
       <div>
         <h2 className="ml-1 font-semibold text-[36px]">Price range</h2>

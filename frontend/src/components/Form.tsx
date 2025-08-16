@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { LuLock } from "react-icons/lu";
 import { BsEye } from "react-icons/bs";
+import ToolTip from "./ToolTip";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
@@ -38,10 +39,6 @@ const Form: React.FC<FormProps> = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // if (!e.currentTarget.checkValidity()) {
-    //   e.currentTarget.reportValidity(); // optional: visually trigger browser's UI
-    //   return; // stop execution if form is invalid
-    // }
     const formData = new FormData(e.currentTarget);
     const fromEntries = Object.fromEntries(formData.entries()) as Record<
       string,
@@ -72,11 +69,7 @@ const Form: React.FC<FormProps> = ({
             {label === "Password" ? (
               hidden ? (
                 <div className="border-b border-white flex items-center">
-                  <input
-                    {...input}
-                    // required
-                    className="focus:outline-none p-1 w-full"
-                  />
+                  <input {...input} className="focus:outline-none p-1 w-full" />
                   <BsEye
                     className="cursor-pointer"
                     onClick={() => setHidden(false)}
@@ -87,7 +80,6 @@ const Form: React.FC<FormProps> = ({
                   <input
                     {...input}
                     type="text"
-                    // required
                     className="focus:outline-none p-1 w-full"
                   />
                   <LuLock
@@ -99,16 +91,19 @@ const Form: React.FC<FormProps> = ({
             ) : (
               <input
                 {...input}
-                // required
                 className="focus:outline-none border-b border-white p-1"
               />
             )}
           </div>
         ))}
         {title.toLocaleLowerCase() === "login form" && (
-          <Link to="/reset-password" className="text-blue-500 cursor-pointer">
-            Forgot password?
-          </Link>
+          <ToolTip
+            top={30}
+            message="Depreciated requires original email to receive opt">
+            <Link to="/reset-password" className="text-blue-500 cursor-pointer">
+              Forgot password?
+            </Link>
+          </ToolTip>
         )}
         <button type="submit" className="bg-purple-800 py-1 px-2 rounded-lg">
           Submit

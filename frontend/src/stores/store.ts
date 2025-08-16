@@ -65,8 +65,6 @@ export const useStore = create<Store>((set, get) => ({
   setMin: (min) => set({ min }),
   setMax: (max) => set({ max }),
   darkMode:
-    // localStorage.getItem("darkMode") === "true" ? true : false,
-    // typeof window !== "undefined" &&
     localStorage.getItem("darkMode") !== null
       ? localStorage.getItem("darkMode") === "true"
       : window.matchMedia("(prefers-color-scheme: dark)").matches,
@@ -76,7 +74,7 @@ export const useStore = create<Store>((set, get) => ({
       const newMode = !state.darkMode;
       if (typeof window !== "undefined") {
         localStorage.setItem("darkMode", newMode.toString());
-        document.documentElement.classList.toggle("dark", newMode); // ✅ key line
+        document.documentElement.classList.toggle("dark", newMode);
       }
       return { darkMode: newMode };
     });
@@ -84,14 +82,11 @@ export const useStore = create<Store>((set, get) => ({
 
   setSelectedCategory: (selectedCategory) => set({ selectedCategory }),
   reset: () => {
-    // const { setSidebarFilterProducts, displayProducts, filterProducts } = get(); // ✅ safely get the method
     set({
       selectedCategory: "All",
       min: undefined,
       max: undefined,
     });
-    // setSidebarFilterProducts("All");
-    // set({ displayProducts: filterProducts });
   },
 
   filters: {
@@ -187,14 +182,6 @@ export const useStore = create<Store>((set, get) => ({
 
     let filtered = [...allProducts];
 
-    console.log(
-      filters.category,
-      "settind displayProducts to ",
-      productData,
-      filters.price.min,
-      filters.price.max
-    );
-
     if (filters.category) {
       filtered = filtered.filter((item) => item.category === filters.category);
     }
@@ -237,28 +224,3 @@ export const useStore = create<Store>((set, get) => ({
   login: false,
   setLogin: (state) => set({ login: state }),
 }));
-
-// interface SidebarStore {
-//   min: number | undefined;
-//   max: number | undefined;
-//   selectedCategory: string;
-//   setMin: (min: number | undefined) => void;
-//   setMax: (max: number | undefined) => void;
-//   setSelectedCategory: (category: string) => void;
-//   reset: () => void;
-// }
-
-// export const useSidebarStore = create<SidebarStore>((set) => ({
-//   min: 0,
-//   max: Infinity,
-//   selectedCategory: "All",
-//   setMin: (min) => set({ min }),
-//   setMax: (max) => set({ max }),
-//   setSelectedCategory: (selectedCategory) => set({ selectedCategory }),
-//   reset: () =>
-//     set({
-//       selectedCategory: "All",
-//       min: undefined,
-//       max: undefined,
-//     }),
-// }));

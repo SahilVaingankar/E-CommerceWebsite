@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
-// import { assets } from "../assets/assets";
 import { useEffect, useRef, useState } from "react";
-// import { AppContext } from "../context/AppContextProvider";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -10,9 +8,7 @@ const EmailVerify = () => {
   const navigate = useNavigate();
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  console.log(backendUrl);
 
-  // const [isLoggedin, setIsLoggedin] = useState(false);
   const [userData, setUserData] = useState<any>("");
 
   const getUserData = async () => {

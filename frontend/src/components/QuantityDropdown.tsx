@@ -4,7 +4,6 @@ import { useStore } from "../stores/store";
 
 const QuantityDropdown = ({ price }: { price: number }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  // const [quantity, setQuantity] = useState<number>(1);
   const { cartPageQuantity, setCartPageQuantity } = useStore();
   return (
     <>
@@ -23,7 +22,7 @@ const QuantityDropdown = ({ price }: { price: number }) => {
       </select> */}
 
       <div
-        className={`flex items-center w-full border rounded-lg font-semibold overflow-hidden`}
+        className={`flex items-center dark:text-black w-full border rounded-lg font-semibold overflow-hidden`}
         onClick={() => {
           setIsOpen(!isOpen);
         }}>
@@ -35,7 +34,7 @@ const QuantityDropdown = ({ price }: { price: number }) => {
                 <li
                   key={i}
                   value={i + 1}
-                  className="px-1 hover:bg-gray-100"
+                  className="px-1 hover:bg-gray-100 dark:hover:bg-gray-300"
                   onClick={() => {
                     setCartPageQuantity(i + 1);
                   }}>

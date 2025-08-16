@@ -11,42 +11,6 @@ const Register: FC = () => {
   const navigate = useNavigate();
   const { setLogin } = useStore();
 
-  // const handleSubmit = async (formObject: Record<string, string>) => {
-  //   const formObject = Object.fromEntries(formData.entries()) as Record<string, string>;
-
-  //   try {
-  //     const res = await axios.post(
-  //       "http://localhost:5050/auth/register",
-  //       formObject
-  //     );
-
-  //     console.log("register successful");
-
-  //     if (res.data.success) {
-  //       try {
-  //         await axios.post("http://localhost:5050/auth/login", formObject, {
-  //           withCredentials: true,
-  //         });
-
-  //         console.log("login successful");
-  //         navigate("/");
-  //       } catch (error) {
-  //         if (axios.isAxiosError(error)) {
-  //           console.log(error.response?.data || "Error: Something went wrong");
-  //         } else {
-  //           console.log("Unexpected error", error);
-  //         }
-  //       }
-  //     }
-  //   } catch (error) {
-  //     if (axios.isAxiosError(error)) {
-  //       console.log(error.response?.data || "Error: Something went wrong");
-  //     } else {
-  //       console.log("Unexpected error", error);
-  //     }
-  //   }
-  // };
-
   const handleSubmit = async (formObject: Record<string, string>) => {
     try {
       await axiosInstance.post(
@@ -59,9 +23,13 @@ const Register: FC = () => {
       navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data.message || "Register failed");
+        toast.error(
+          error.response?.data.error.details[0].message ||
+            error.response?.data.message ||
+            "Register failed"
+        );
       } else {
-        console.log("Unexpected register error", error);
+        toast.error("Unexpected register error");
       }
     }
   };

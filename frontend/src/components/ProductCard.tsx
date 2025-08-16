@@ -29,7 +29,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     <div className="flex flex-col border p-2 gap-0.5 rounded-md w-full h-full">
       <div
         onClick={() => {
-          console.log(id);
           navigate(`/product/${id}`);
         }}
         className="cursor-pointer">
@@ -52,14 +51,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <div className="flex justify-between">
         <p className="text-sm">
           <span className="line-through text-gray-500">{price}$</span>{" "}
-          <span className="text-black">
+          <span className="text-black dark:text-white">
             {(price - (price * discountPercentage) / 100).toFixed(2)}$
           </span>
         </p>
         <FaCartPlus
           className="h-4 w-4 cursor-pointer active:text-gray-500"
           onClick={() => {
-            console.log(title, "Added to cart");
             addToCart({ images, title, price });
             toast.success(`${title} is added to the cart`);
           }}

@@ -10,18 +10,30 @@ const Login = () => {
   const { setLogin } = useStore();
 
   const handleSumbit = async (loginInfo: any) => {
-    try {
-      await axios.post("http://localhost:5050/auth/login", loginInfo, {
-        withCredentials: true,
-      });
-      setLogin(true);
-      toast.success("login successful");
-      navigate("/");
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message || "Login failed");
+    if (loginInfo.password.length >= 5 && loginInfo.password.length <= 20) {
+      try {
+        await axios.post("http://localhost:5050/auth/login", loginInfo, {
+          withCredentials: true,
+        });
+        setLogin(true);
+        toast.success("login successful");
+        navigate("/");
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast.error(
+            error.response?.data.error.details[0].message ||
+              error.response?.data.message ||
+              "Register failed"
+          );
+        } else {
+          toast.error("Unexpected login error");
+        }
+      }
+    } else {
+      if (loginInfo.password.length < 5) {
+        toast.error("Password must be atleast 5 charectors long");
       } else {
-        console.log("Unexpected login error", error);
+        toast.error("Password must not be grater then 20 charectors");
       }
     }
   };
@@ -42,32 +54,12 @@ const Login = () => {
           path: "/register",
         }}
         fields={[
-          // {
-          //   label: "Email",
-          //   input: {
-          //     type: "email",
-          //     name: "email",
-          //     placeholder: "Enter Email",
-          //     required: true,
-          //   },
-          // },
-          // {
-          //   label: "Password",
-          //   input: {
-          //     type: "password",
-          //     name: "password",
-          //     placeholder: "Enter Password",
-          //     required: true,
-          //     // autoComplete: "off",
-          //   },
-          // },
           {
             label: "Email",
             input: {
               type: "email",
               name: "email",
               placeholder: "Enter email",
-              // required: true,
             },
           },
           {
@@ -76,7 +68,6 @@ const Login = () => {
               type: "password",
               name: "password",
               placeholder: "Enter password",
-              // required: true,
             },
           },
         ]}

@@ -2,9 +2,7 @@ import { useState } from "react";
 import PurchaseForm from "../components/PurchaseForm";
 import { toast } from "react-toastify";
 import { useStore } from "../stores/store.ts";
-import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { MdArrowBackIosNew } from "react-icons/md";
 import { BiArrowBack } from "react-icons/bi";
 
 interface CartItems {
@@ -50,12 +48,12 @@ const CartPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen w-full px-2 py-15 bg-gradient-to-br from-indigo-500 to-lime-500">
+    <div className="flex justify-center items-center h-screen w-full px-2 py-15 bg-gradient-to-br from-indigo-500 to-lime-500 dark:from-[#3f1357] dark:via-[#7c3aed] dark:to-[#ec4899]">
       <BiArrowBack
-        className="hidden sm:block absolute top-13 left-1 h-10 w-10 rounded-full bg-white/50 cursor-pointer hover:bg-gray-200"
+        className="hidden sm:block absolute top-14 left-1 h-8 w-8 rounded-full bg-white/50 cursor-pointer hover:bg-gray-200"
         onClick={() => navigate(-1)}
       />
-      <div className="flex flex-col gap-1 mt-17 bg-white h-full w-full max-w-300 p-2 md:p-4  overflow-y-auto shadow-2xl">
+      <div className="flex flex-col gap-1 mt-17 bg-white dark:bg-[#201E1E] dark:text-white h-full w-full max-w-300 p-2 md:p-4  overflow-y-auto shadow-2xl">
         <div className="flex justify-between">
           {" "}
           <h1>Shopping Cart</h1>
@@ -76,7 +74,7 @@ const CartPage = () => {
                 <h2 className="text-xs font-black">{item.title}</h2>
                 <div className="flex gap-1">
                   <button
-                    className="bg-gray-300 rounded-full h-7 w-7 pb-1 disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer"
+                    className="bg-gray-300 dark:text-black rounded-full h-7 w-7 pb-1 disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer"
                     onClick={() => {
                       decrement(item.title);
                     }}
@@ -85,7 +83,7 @@ const CartPage = () => {
                   </button>
                   <p>{item.quantity}</p>
                   <button
-                    className="bg-gray-300 rounded-full h-7 w-7 pb-1 disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer"
+                    className="bg-gray-300 dark:text-black rounded-full h-7 w-7 pb-1 disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer"
                     onClick={() => increment(item.title)}
                     disabled={item.quantity! > 30}>
                     +
@@ -93,7 +91,7 @@ const CartPage = () => {
                 </div>
                 {/* <div className=""> */}
                 <p className="flex flex-col text-center text-sm font-semibold">
-                  ${item.price * (item.quantity || 1)}
+                  ${(item.price * (item.quantity || 1)).toFixed(2)}
                   <span
                     className="m-auto text-red-500 border-b text-xs cursor-pointer"
                     onClick={() => remove(item.title)}>
@@ -108,9 +106,6 @@ const CartPage = () => {
               Cart is Empty
             </p>
           )}
-          {/* <div className="grid grid-cols-4">
-            <div className=" border-t-2 col-start-2 col-span-3"></div>
-          </div> */}
           <div className="grid grid-cols-4 gap-2 items-center font-semibold border-t-2">
             <p className="col-start-3 ">
               Items: {cartItems.reduce((acc, curr) => acc + curr.quantity!, 0)}
@@ -130,7 +125,6 @@ const CartPage = () => {
         <button
           className="ms-auto bg-sky-300 py-1 px-2 rounded-lg cursor-pointer"
           onClick={() => {
-            console.log(openPurchaseForm);
             cartItems.length > 0
               ? openPurchaseForm("Cart")
               : toast.error("Cart is Empty");

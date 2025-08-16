@@ -10,4 +10,5 @@ const DeviceSchema = new mongoose.Schema({
   lastUsed: { type: Date, default: Date.now, index: { expires: "7d" } },
 });
 
-export const DeviceModel = mongoose.model("device", DeviceSchema);
+export const DeviceModel =
+  mongoose.models.device || mongoose.model("device", DeviceSchema);

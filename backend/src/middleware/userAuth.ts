@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 
 interface AuthenticatedRequest extends Request {
   userId?: string;
-  // id?: number;
 }
 
 interface JwtPayload {
@@ -15,11 +14,7 @@ export const userAuth = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(req.cookies);
-
   const { accessToken } = req.cookies;
-
-  console.log("accessToken : ", accessToken);
 
   if (!accessToken) {
     return res

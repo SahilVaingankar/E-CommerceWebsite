@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
-// import { assets } from "../assets/assets";
 import React, { useContext, useRef, useState } from "react";
-// import { AppContext } from "../context/AppContextProvider";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BsMailbox } from "react-icons/bs";
@@ -9,7 +7,6 @@ import { BsMailbox } from "react-icons/bs";
 const ResetPassword = () => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   axios.defaults.withCredentials = true;
-  // const { backendUrl } = useContext(AppContext);
   const [email, setEmail] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [isEmailSent, setIsEmailSent] = useState<boolean>(false);

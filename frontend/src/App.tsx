@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import ProductPage from "./pages/ProductPage";
 import MainLayout from "./layouts/MainLayout";
 import CartPage from "./pages/CartPage";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import EmailVerify from "./pages/EmailVerify";
@@ -20,25 +20,20 @@ const App = () => {
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
-  console.log("darkMode : ", darkMode);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5050/user/getUserData",
-          {
-            withCredentials: true,
-          }
-        );
-        console.log(response);
+        await axios.get("http://localhost:5050/user/getUserData", {
+          withCredentials: true,
+        });
 
         setLogin(true);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          console.log(error.response?.data || "Login failed");
+          toast.error(error.response?.data || "Login failed");
         } else {
-          console.log("Unexpected login error", error);
+          toast.error("Unexpected login error");
         }
       }
     };
@@ -46,7 +41,8 @@ const App = () => {
   }, []);
 
   return (
-    <div className={`${darkMode ? "dark" : ""}`}>
+    <div
+      className={`${darkMode ? "dark" : ""} min-h-[100svh] dark:bg-[#201E1E]`}>
       <ToastContainer
         position="top-left"
         autoClose={3000}
@@ -57,7 +53,6 @@ const App = () => {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductPage />} />
-          {/* Protected routes */}
           <Route element={<ProtectedRoutes type={"guest"} />}>
             <Route path="/email-verify" element={<EmailVerify />} />
             <Route path="/cart" element={<CartPage />} />

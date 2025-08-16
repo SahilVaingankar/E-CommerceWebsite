@@ -12,7 +12,6 @@ const MobileSidebar = ({ isClicked }: { isClicked: boolean }) => {
     setMin,
     max,
     setMax,
-    selectedCategory,
     setSelectedCategory,
   } = useStore();
 
@@ -139,8 +138,6 @@ const MobileSidebar = ({ isClicked }: { isClicked: boolean }) => {
               onChange={(e) => {
                 const val = +e.target.value > 0 ? +e.target.value : undefined;
                 setLocalMax(val === undefined || isNaN(val) ? undefined : val);
-                // const val = +e.target.value;
-                // setLocalMax(isNaN(val) ? undefined : val);
               }}
             />
           </label>

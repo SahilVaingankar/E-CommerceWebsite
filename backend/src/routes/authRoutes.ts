@@ -12,11 +12,15 @@ import {
   resetPassword,
 } from "../controllers/authController";
 import { userAuth } from "../middleware/userAuth";
+import {
+  LoginValidation,
+  RegistrationValidation,
+} from "../middleware/FormValidation";
 
 export const authRouter = Router();
 
-authRouter.post("/register", register);
-authRouter.post("/login", login);
+authRouter.post("/register", RegistrationValidation, register);
+authRouter.post("/login", LoginValidation, login);
 authRouter.post("/logout", logout);
 authRouter.post("/refresh", refresh);
 authRouter.post(

@@ -10,39 +10,6 @@ import {
 import { Request, Response } from "express";
 import { transporter } from "../config/nodemailer";
 
-// export const register = async (req: Request, res: Response) => {
-//   const { username, email, password } = req.body;
-//   if (!username || !email || !password) {
-//     return res.status(400).json({
-//       success: false,
-//       message: "Missing Details: username, email and password are required",
-//     });
-//   }
-
-//   try {
-//     const user = await UserModel.findOne({ email });
-
-//     if (user) {
-//       return res
-//         .status(409)
-//         .json({ success: false, message: "User alredy exists, you can login" });
-//     }
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     const userModel = new UserModel({
-//       username,
-//       email,
-//       password: hashedPassword,
-//     });
-//     await userModel.save();
-
-//     return res.status(200).json({ success: true, message: "Login Successful" });
-//   } catch (error) {
-//     return res
-//       .status(500)
-//       .json({ success: false, message: "Internal server error" });
-//   }
-// };
-
 interface AuthenticatedRequest extends Request {
   userId: string;
 }
@@ -77,7 +44,6 @@ export const register = async (req: Request, res: Response) => {
     // AUTO LOGIN STARTS HERE
     // -----------------------
 
-    // return await login(req, res);
     const refreshToken = jwt.sign(
       { id: newUser._id },
       process.env.JWT_REFRESH_TOKEN_SECRET!,
@@ -125,7 +91,7 @@ export const register = async (req: Request, res: Response) => {
       html: `<h1>Welcome to E-commerce website. Your account has been created with email id: ${email}</h1>`,
     };
 
-    console.log("sending email from", process.env.SENDER_EMAIL, "to", email);
+    console.log("sending email to", email);
 
     transporter.sendMail(mailOption).catch((err) => {
       console.error("Failed to send welcome email:", err);
@@ -144,7 +110,6 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  console.log(req);
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({
@@ -153,19 +118,13 @@ export const login = async (req: Request, res: Response) => {
     });
   }
   try {
-    // console.log(req);
-
     const user = await UserModel.findOne({ email });
-
-    // console.log(user);
 
     if (!user) {
       return res.status(401).json({ success: false, message: "Invalid Email" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-
-    // console.log(isMatch);
 
     if (!isMatch) {
       return res
@@ -178,7 +137,6 @@ export const login = async (req: Request, res: Response) => {
       process.env.JWT_REFRESH_TOKEN_SECRET!,
       { expiresIn: "7d" }
     );
-    console.log(refreshToken);
 
     const accessToken = jwt.sign(
       { id: user._id, email },
@@ -186,11 +144,7 @@ export const login = async (req: Request, res: Response) => {
       { expiresIn: "15m" }
     );
 
-    console.log(accessToken);
-
     const deviceId = uuidv4();
-
-    console.log("id :", deviceId);
 
     const deviceModel = new DeviceModel({
       refreshToken,
@@ -204,13 +158,13 @@ export const login = async (req: Request, res: Response) => {
 
     await deviceModel.save();
 
-    console.log("data saved");
+    console.log("user data saved on databse successfully");
 
     res.cookie("device_id", deviceId, {
-      httpOnly: true, // Not accessible via JS
+      httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "lax" : "strict",
-      maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
+      maxAge: 1000 * 60 * 60 * 24 * 365,
     });
 
     const mailOption = {
@@ -220,7 +174,7 @@ export const login = async (req: Request, res: Response) => {
       html: `<h1>devie ${req.headers["user-agent"]} Logged it to this Account</h1>`,
     };
 
-    console.log("sending email from", process.env.SENDER_EMAIL, "to", email);
+    console.log("sending email to", email);
 
     transporter.sendMail(mailOption).catch((err) => {
       console.error("Failed to send welcome email:", err);
@@ -258,7 +212,7 @@ export const logout = async (req: Request, res: Response) => {
     await DeviceModel.deleteOne({ deviceId });
 
     res.clearCookie("device_id", {
-      httpOnly: true, // Not accessible via JS
+      httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "lax" : "strict",
     });
@@ -306,9 +260,7 @@ export const refresh = async (req: Request, res: Response) => {
       });
     }
 
-    console.log(device);
-
-    const { refreshToken, deviceId, email } = device;
+    const { refreshToken, email } = device;
 
     if (!refreshToken) {
       throw new Error("No refresh token provided");
@@ -326,15 +278,11 @@ export const refresh = async (req: Request, res: Response) => {
 
     const user = await UserModel.findOne({ email }).select("_id");
 
-    console.log(user);
-
     const newRefreshToken = jwt.sign(
       { id: user._id },
       process.env.JWT_REFRESH_TOKEN_SECRET!,
       { expiresIn: "7d" }
     );
-
-    console.log(newRefreshToken);
 
     device.refreshToken = newRefreshToken;
     device.lastUsed = new Date();
@@ -352,7 +300,7 @@ export const refresh = async (req: Request, res: Response) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "lax" : "strict",
-      maxAge: 15 * 60 * 1000, // 15 minutes
+      maxAge: 15 * 60 * 1000,
     });
 
     console.log("new access token send");
@@ -374,8 +322,6 @@ export const sendVerifyOtp = async (
 ) => {
   try {
     const userId = req.userId;
-    console.log(userId);
-
     const user = await UserModel.findById(userId);
 
     if (user.isAccountVerified) {
@@ -396,7 +342,7 @@ export const sendVerifyOtp = async (
       from: process.env.SENDER_EMAIL,
       to: user.email,
       subject: "Account varification OTP",
-      html: PASSWORD_RESET_TEMPLATE.replace("{{otp}}", otp).replace(
+      html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace(
         "{{user}}",
         user.username
       ),

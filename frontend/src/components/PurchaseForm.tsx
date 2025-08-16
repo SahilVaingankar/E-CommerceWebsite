@@ -8,7 +8,7 @@ const PurchaseForm = () => {
 
   return (
     <div className="fixed z-50 inset-0 bg-black/50">
-      <form className="absolute mt-5 md:mt-7 top-1/2 left-1/2 -translate-1/2 w-[90%] max-w-3xl bg-white px-8 py-3 rounded-md shadow-2xl shadow-black space-y-4">
+      <form className="absolute mt-5 md:mt-7 top-1/2 left-1/2 -translate-1/2 w-[90%] max-w-3xl bg-white dark:bg-[#201E1E] dark:text-white px-8 py-3 rounded-md shadow-2xl shadow-black space-y-4">
         <button
           className="absolute top-2 right-3 cursor-pointer"
           onClick={closePurchaseForm}>

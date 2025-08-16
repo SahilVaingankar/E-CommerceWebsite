@@ -9,11 +9,7 @@ export const getUserData = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { userId } = req;
 
-    console.log(userId);
-
     const user = await UserModel.findById(userId);
-
-    console.log(user);
 
     if (!user) {
       res.status(401).json({ success: false, message: "User not found" });
@@ -24,10 +20,10 @@ export const getUserData = async (req: AuthenticatedRequest, res: Response) => {
       success: true,
       userData: {
         name: user.username,
-        isAccountVerified: user.isAuthenticated,
+        isAccountVerified: user.isAccountVerified,
       },
     });
-    console.log("success");
+    console.log("data sent to frontend successfully");
     return;
   } catch (error) {
     res.status(500).json({ success: false, message: "Internal server error" });
