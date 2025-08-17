@@ -44,7 +44,7 @@ const Sidebar = ({ isClicked }: { isClicked: boolean }) => {
 
   return (
     <div
-      className={`hidden absolute md:flex flex-col justify-around px-2 h-[100svh] w-0 pt-15 pb-2 py-6.5 top-0 left-0 overflow-hidden ${
+      className={`hidden absolute sm:flex flex-col justify-around px-2 h-[100svh] w-0 pt-15 pb-2 py-6.5 top-0 left-0 overflow-hidden ${
         isClicked ? "w-[250px] sm:fixed" : "w-[250px] sm:w-[250px]"
       } bg-[#D9D9D9]`}>
       <div>

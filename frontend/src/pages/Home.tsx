@@ -66,14 +66,14 @@ const Home = () => {
       <div className="flex overflow-y-auto w-full ">
         <aside
           className={` fixed top-0 left-0 sm:relative sm:flex sm:flex-col bg-black/50 h-[100svh] z-20 w-0 ${
-            isSidebarOpen ? "w-full sm:w-[250px]" : "w-0"
+            isSidebarOpen ? "w-full sm:max-w-[250px]" : "w-0"
           } overflow-hidden transition-all duration-700 md:border-r-2`}>
           <MobileSidebar isClicked={isSidebarOpen} />
           <Sidebar isClicked={isSidebarOpen} />
         </aside>
 
-        <main className="mt-7 grow dark:bg-[#201E1E] dark:text-white h-full">
-          <section className="lg:mx-4 p-2 flex flex-col">
+        <main className={`mt-7 grow dark:bg-[#201E1E] dark:text-white h-full`}>
+          <section className={`lg:mx-4 p-2 flex flex-col `}>
             <h2 className="mt-4.75 text-[20px] font-medium">Recommended</h2>
             <section className="mt-2 flex gap-2 flex-wrap">
               {recommendedBtns.map((btn: string, i: number) => (
@@ -105,7 +105,7 @@ const Home = () => {
                 </button>
               )}
               <div
-                className={`sm:flex flex-col sm:px-15 md:px-30 w-full ${
+                className={`sm:flex flex-col sm:px-10 md:px-10 w-full ${
                   isSidebarOpen ? "lg:px-0" : "lg:px-30"
                 } sm:w-full justify-center items-center`}>
                 <section className="flex justify-between w-full mt-4">
