@@ -11,7 +11,7 @@ import { Request, Response } from "express";
 import { transporter } from "../config/nodemailer";
 
 interface AuthenticatedRequest extends Request {
-  userId: string;
+  userId?: string;
 }
 
 export const register = async (req: Request, res: Response) => {
@@ -321,6 +321,9 @@ export const sendVerifyOtp = async (
   res: Response
 ) => {
   try {
+    if (!req.userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
     const userId = req.userId;
     const user = await UserModel.findById(userId);
 
