@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-interface ToolTipProps {
+interface PopOverProps {
   top?: number;
   left?: number;
   right?: number;
@@ -9,7 +9,7 @@ interface ToolTipProps {
   message: string;
   children: React.ReactNode;
 }
-const ToolTip: React.FC<ToolTipProps> = ({
+const PopOver: React.FC<PopOverProps> = ({
   top,
   left,
   right,
@@ -18,15 +18,15 @@ const ToolTip: React.FC<ToolTipProps> = ({
   message,
   children,
 }) => {
-  const [toolTip, setToolTip] = useState(false);
+  const [PopOver, setPopOver] = useState(false);
 
   return (
     <div
-      onMouseEnter={() => setToolTip(true)}
-      onMouseLeave={() => setToolTip(false)}
+      onMouseEnter={() => setPopOver(true)}
+      onMouseLeave={() => setPopOver(false)}
       className="relative flex items-center">
       {children}
-      {toolTip && (
+      {PopOver && (
         <span
           className="absolute border border-white bg-gray-900 text-white text-sm px-2 py-1 w-50 sm:w-105"
           style={{
@@ -53,4 +53,4 @@ const ToolTip: React.FC<ToolTipProps> = ({
   );
 };
 
-export default ToolTip;
+export default PopOver;

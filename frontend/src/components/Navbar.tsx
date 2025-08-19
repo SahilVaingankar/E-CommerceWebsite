@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axiosInstance from "../services/axios";
 import { useStore } from "../stores/store";
-import ToolTip from "./PopOver";
+import PopOver from "./PopOver";
 
 const Navbar = () => {
   const { setLogin, darkMode, toggleMode } = useStore();
@@ -104,7 +104,7 @@ const Navbar = () => {
             } group-hover:block top-0 right-0 text-black rounded pt-10 -z-10`}>
             <ul className="list-none m-0 p-2 bg-gray-100 text-sm dark:bg-gray-900 dark:text-white">
               {!userData.isAccountVerified && (
-                <ToolTip
+                <PopOver
                   message="Depreciated require real email to receive OTP"
                   url="https://github.com/SahilVaingankar/E-CommerceWebsite/blob/main/backend/src/routes/authRoutes.ts#L26-L27"
                   right={110}
@@ -114,7 +114,7 @@ const Navbar = () => {
                     className="py-1 px-2 dark:hover:bg-gray-700 hover:bg-gray-200 cursor-pointer group">
                     <p>Verify Email</p>
                   </li>
-                </ToolTip>
+                </PopOver>
               )}
               <li
                 onClick={logout}

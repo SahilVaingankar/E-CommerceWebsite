@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { LuLock } from "react-icons/lu";
 import { BsEye } from "react-icons/bs";
-import ToolTip from "./PopOver";
+import PopOver from "./PopOver";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
@@ -97,14 +97,14 @@ const Form: React.FC<FormProps> = ({
           </div>
         ))}
         {title.toLocaleLowerCase() === "login form" && (
-          <ToolTip
+          <PopOver
             top={30}
             url="https://github.com/SahilVaingankar/E-CommerceWebsite/blob/main/backend/src/routes/authRoutes.ts#L29"
             message="Depreciated requires original email to receive opt">
             <Link to="/reset-password" className="text-blue-500 cursor-pointer">
               <p className="py-1 px-2">Forgot password?</p>
             </Link>
-          </ToolTip>
+          </PopOver>
         )}
         <button
           type="submit"
