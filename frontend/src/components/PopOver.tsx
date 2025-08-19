@@ -5,6 +5,7 @@ interface ToolTipProps {
   left?: number;
   right?: number;
   bottom?: number;
+  url?: string;
   message: string;
   children: React.ReactNode;
 }
@@ -13,6 +14,7 @@ const ToolTip: React.FC<ToolTipProps> = ({
   left,
   right,
   bottom,
+  url,
   message,
   children,
 }) => {
@@ -26,14 +28,25 @@ const ToolTip: React.FC<ToolTipProps> = ({
       {children}
       {toolTip && (
         <span
-          className="absolute border border-white bg-gray-900 text-white text-sm px-2 py-1 whitespace-nowrap"
+          className="absolute border border-white bg-gray-900 text-white text-sm px-2 py-1 w-50 sm:w-105"
           style={{
             right: right,
             top: top,
             left: left,
             bottom: bottom,
           }}>
-          {message}
+          <p>
+            {message}{" "}
+            {url && (
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline cursor-pointer hover:text-blue-400 active:text-blue-600 whitespace-nowrap">
+                see code instead
+              </a>
+            )}
+          </p>
         </span>
       )}
     </div>

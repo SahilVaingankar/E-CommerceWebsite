@@ -24,7 +24,7 @@ const Register: FC = () => {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(
-          error.response?.data.error.details[0].message ||
+          error.response?.data?.error?.details?.[0]?.message ||
             error.response?.data.message ||
             "Register failed"
         );

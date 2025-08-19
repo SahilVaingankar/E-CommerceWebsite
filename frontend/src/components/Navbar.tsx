@@ -6,13 +6,14 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axiosInstance from "../services/axios";
 import { useStore } from "../stores/store";
-import ToolTip from "./ToolTip";
+import ToolTip from "./PopOver";
 
 const Navbar = () => {
   const { setLogin, darkMode, toggleMode } = useStore();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const [userData, setUserData] = useState<any>("");
+  const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const sendVerificationOtp = async () => {
@@ -87,20 +88,33 @@ const Navbar = () => {
         <AiOutlineShoppingCart className="h-[25px] w-[25px]" />
       </Link>
       {userData ? (
-        <div className="w-6 h-6 flex justify-center items-center rounded-full bg-black text-white relative group cursor-pointer">
+        <div
+          className="w-6 h-6 flex justify-center items-center rounded-full bg-black text-white relative group cursor-pointer"
+          tabIndex={0}
+          onClick={() => {
+            setIsProfileOpen(true);
+          }}
+          onBlur={() => {
+            setIsProfileOpen(false);
+          }}>
           {userData.name[0].toUpperCase()}
-          <div className="absolute hidden group-hover:block top-0 right-0 text-black rounded pt-10 -z-10">
+          <div
+            className={`absolute ${
+              isProfileOpen ? "block" : "hidden"
+            } group-hover:block top-0 right-0 text-black rounded pt-10 -z-10`}>
             <ul className="list-none m-0 p-2 bg-gray-100 text-sm dark:bg-gray-900 dark:text-white">
               {!userData.isAccountVerified && (
-                <li
-                  onClick={sendVerificationOtp}
-                  className="py-1 px-2 dark:hover:bg-gray-700 hover:bg-gray-200 cursor-pointer group">
-                  <ToolTip
-                    message="Depreciated require real email to receive OTP"
-                    right={110}>
+                <ToolTip
+                  message="Depreciated require real email to receive OTP"
+                  url="https://github.com/SahilVaingankar/E-CommerceWebsite/blob/main/backend/src/routes/authRoutes.ts#L26-L27"
+                  right={110}
+                  top={0}>
+                  <li
+                    onClick={sendVerificationOtp}
+                    className="py-1 px-2 dark:hover:bg-gray-700 hover:bg-gray-200 cursor-pointer group">
                     <p>Verify Email</p>
-                  </ToolTip>
-                </li>
+                  </li>
+                </ToolTip>
               )}
               <li
                 onClick={logout}
