@@ -9,7 +9,7 @@ import { useStore } from "../stores/store";
 import PopOver from "./PopOver";
 
 const Navbar = () => {
-  const { setLogin, darkMode, toggleMode } = useStore();
+  const { setLogin, darkMode, toggleMode, login } = useStore();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const [userData, setUserData] = useState<any>("");
@@ -84,8 +84,13 @@ const Navbar = () => {
       </Link>
       <SearchBar />
       <Link to="/cart">
-        {" "}
-        <AiOutlineShoppingCart className="h-[25px] w-[25px]" />
+        {login ? (
+          <AiOutlineShoppingCart className="h-[25px] w-[25px]" />
+        ) : (
+          <PopOver message="requies login" right={-35}>
+            <AiOutlineShoppingCart className="h-[25px] w-[25px]" />
+          </PopOver>
+        )}
       </Link>
       {userData ? (
         <div
@@ -139,6 +144,7 @@ const Navbar = () => {
                     type="checkbox"
                     className="sr-only peer"
                     checked={darkMode}
+                    readOnly
                   />
                   <span className="block w-12 h-6 bg-gray-300 rounded-full peer-checked:bg-blue-600 transition-colors" />
                   <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow transform transition-transform peer-checked:translate-x-6 pointer-events-none" />

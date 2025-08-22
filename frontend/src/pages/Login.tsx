@@ -42,7 +42,7 @@ const Login = () => {
       className="flex items-center justify-center min-h-screen w-full px-6 sm:px-0 bg-gradient-to-br from-[#3f1357] via-[#7c3aed] to-[#ec4899]"
       style={{ boxShadow: "8px 8px 24px 0px rgba(66,68,90,1)" }}>
       <Link to={"/"}>
-        <BiArrowBack className="absolute top-5 left-3 h-10 w-10 rounded-full bg-white/50 cursor-pointer hover:bg-gray-200" />
+        <BiArrowBack className="absolute md:top-1 top-5 lg:top-5 left-3 lg:left-7 h-10 w-10 rounded-full bg-white/50 cursor-pointer hover:bg-gray-200" />
       </Link>
       <Form
         onSubmit={handleSumbit}
@@ -55,7 +55,7 @@ const Login = () => {
         }}
         fields={[
           {
-            label: "Email",
+            label: "Email (dummyuser@gmail.com)",
             input: {
               type: "email",
               name: "email",
@@ -63,7 +63,7 @@ const Login = () => {
             },
           },
           {
-            label: "Password",
+            label: "Password (dummypassword)",
             input: {
               type: "password",
               name: "password",

@@ -88,7 +88,7 @@ const MobileSidebar = ({ isClicked }: { isClicked: boolean }) => {
                 checked={localselectedCategory === "All"}
                 value="All"
                 className="mr-2 w-[16px] h-[16px] cursor-pointer"
-                onClick={() => setLocalSelectedCategory("All")}
+                onChange={() => setLocalSelectedCategory("All")}
               />
               All
             </label>
@@ -101,7 +101,7 @@ const MobileSidebar = ({ isClicked }: { isClicked: boolean }) => {
                   name="category-mobile"
                   className="mr-2 w-[16px] h-[16px] cursor-pointer "
                   checked={localselectedCategory === category}
-                  onClick={() => setLocalSelectedCategory(category)}
+                  onChange={() => setLocalSelectedCategory(category)}
                 />
                 {category}
               </label>
