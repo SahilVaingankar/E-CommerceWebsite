@@ -12,6 +12,7 @@ const MobileSidebar = ({ isClicked }: { isClicked: boolean }) => {
     setMin,
     max,
     setMax,
+    selectedCategory,
     setSelectedCategory,
   } = useStore();
 
@@ -62,6 +63,10 @@ const MobileSidebar = ({ isClicked }: { isClicked: boolean }) => {
     }
   }, [min, max]);
 
+  useEffect(() => {
+    setLocalSelectedCategory(selectedCategory);
+  }, [selectedCategory]);
+
   return (
     <div
       className={`md:hidden absolute flex flex-col justify-around px-2 h-[100svh] w-0 pt-15 pb-2 py-6.5 top-0 left-0 overflow-hidden ${
@@ -93,14 +98,15 @@ const MobileSidebar = ({ isClicked }: { isClicked: boolean }) => {
               All
             </label>
           </li>
-          {categories.map((category) => (
-            <li key={category}>
+          {categories.map((category, i) => (
+            <li key={i}>
               <label className="cursor-pointer">
                 <input
                   type="radio"
                   name="category-mobile"
                   className="mr-2 w-[16px] h-[16px] cursor-pointer "
                   checked={localselectedCategory === category}
+                  value={category}
                   onChange={() => setLocalSelectedCategory(category)}
                 />
                 {category}

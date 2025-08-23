@@ -77,7 +77,9 @@ const Sidebar = ({ isClicked }: { isClicked: boolean }) => {
                   type="radio"
                   name="category-desktop"
                   className="mr-2 w-[16px] h-[16px] cursor-pointer"
-                  onClick={() => handleRadioChangeCategory(category)}
+                  checked={selectedCategory === category}
+                  value={category}
+                  onChange={() => handleRadioChangeCategory(category)}
                 />
                 {category}
               </label>

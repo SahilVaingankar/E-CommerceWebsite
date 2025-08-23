@@ -17,10 +17,13 @@ const Home = () => {
   const itemsPerPage = 6;
 
   const recommendedBtns: string[] = ["Bed", "Food", "Table", "Pepper", "Steak"];
-  const { displayProducts, setAllProducts, filterProducts } = useStore();
-  const [selectedRecommendation, setselectedRecommendation] =
-    useState<string>("");
-  const { isSidebarOpen, setIsSidebarOpen } = useStore();
+  const { displayProducts, setAllProducts, filterProducts, reset } = useStore();
+  const {
+    isSidebarOpen,
+    setIsSidebarOpen,
+    selectedRecommendation,
+    setSelectedRecommendation,
+  } = useStore();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +37,13 @@ const Home = () => {
 
     fetchData();
   }, []);
+
+  const handleRecommendations = (btn: string) => {
+    reset();
+    selectedRecommendation === btn
+      ? (setSelectedRecommendation(""), filterProducts(""))
+      : (setSelectedRecommendation(btn), filterProducts(btn));
+  };
 
   const totalPages = Math.ceil(displayProducts.length / itemsPerPage);
 
@@ -72,7 +82,8 @@ const Home = () => {
           <Sidebar isClicked={isSidebarOpen} />
         </aside>
 
-        <main className={`mt-7 grow dark:bg-[#201E1E] dark:text-white h-full`}>
+        <main
+          className={`mt-7 grow dark:bg-[#201E1E] dark:text-white h-full min-w-[calc(100%-250px)]`}>
           <section className={`lg:mx-4 p-2 flex flex-col `}>
             <h2 className="mt-4.75 text-[20px] font-medium">Recommended</h2>
             <section className="mt-2 flex gap-2 flex-wrap">
@@ -80,9 +91,7 @@ const Home = () => {
                 <button
                   key={i}
                   onClick={() => {
-                    selectedRecommendation === btn
-                      ? (setselectedRecommendation(""), filterProducts(""))
-                      : (setselectedRecommendation(btn), filterProducts(btn));
+                    handleRecommendations(btn);
                   }}
                   className={`${
                     selectedRecommendation === btn

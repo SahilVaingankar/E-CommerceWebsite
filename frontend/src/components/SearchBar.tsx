@@ -15,6 +15,7 @@ export const SearchBar = () => {
     filterProducts,
     reset,
     setSidebarFilterProducts,
+    setSelectedRecommendation,
   } = useStore();
 
   useEffect(() => {
@@ -32,6 +33,7 @@ export const SearchBar = () => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       reset();
+      setSelectedRecommendation("");
       setSidebarFilterProducts("All");
       filterProducts(query.trim());
       setQuery("");

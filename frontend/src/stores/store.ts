@@ -30,6 +30,8 @@ interface Store {
   reset: () => void;
   login: boolean;
   setLogin: (state: boolean) => void;
+  selectedRecommendation: string;
+  setSelectedRecommendation: (state: string) => void;
 
   filters: {
     category: string | null;
@@ -223,4 +225,7 @@ export const useStore = create<Store>((set, get) => ({
 
   login: false,
   setLogin: (state) => set({ login: state }),
+
+  selectedRecommendation: "",
+  setSelectedRecommendation: (state) => set({ selectedRecommendation: state }),
 }));
