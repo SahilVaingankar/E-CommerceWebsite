@@ -34,7 +34,7 @@ export const SearchBar = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      navigate("/Home");
+      navigate("/");
       reset();
       setSelectedRecommendation("");
       setSidebarFilterProducts("All");
