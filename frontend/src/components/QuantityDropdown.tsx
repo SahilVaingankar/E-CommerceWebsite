@@ -22,7 +22,7 @@ const QuantityDropdown = ({ price }: { price: number }) => {
       </select> */}
 
       <div
-        className={`flex items-center dark:text-black w-full border rounded-lg font-semibold overflow-hidden`}
+        className={`flex items-center dark:text-black w-full border rounded-lg font-semibold overflow-hidden cursor-pointer`}
         onClick={() => {
           setIsOpen(!isOpen);
         }}>

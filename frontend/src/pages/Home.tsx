@@ -23,6 +23,7 @@ const Home = () => {
     setIsSidebarOpen,
     selectedRecommendation,
     setSelectedRecommendation,
+    allProducts,
   } = useStore();
 
   useEffect(() => {
@@ -35,7 +36,9 @@ const Home = () => {
       }
     };
 
-    fetchData();
+    if (!allProducts) {
+      fetchData();
+    }
   }, []);
 
   const handleRecommendations = (btn: string) => {

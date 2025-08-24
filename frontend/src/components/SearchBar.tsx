@@ -34,11 +34,13 @@ export const SearchBar = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      navigate("/");
       reset();
       setSelectedRecommendation("");
       setSidebarFilterProducts("All");
       filterProducts(query.trim());
+      if (query) {
+        navigate("/");
+      }
       setQuery("");
       setTypedQuery("");
       setCurrentIndex(-1);

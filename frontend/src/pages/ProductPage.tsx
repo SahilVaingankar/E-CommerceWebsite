@@ -100,7 +100,7 @@ const ProductPage: React.FC = () => {
               </p>
               <QuantityDropdown price={product.price} />
               <button
-                className="w-full text-black bg-amber-400 py-1 rounded-lg active:bg-amber-300"
+                className="w-full text-black bg-amber-400 py-1 rounded-lg active:bg-amber-300 cursor-pointer"
                 onClick={() => {
                   addToCart(product, cartPageQuantity), setCartPageQuantity(1);
                   toast.success(`${product.title} is added to the cart`);
@@ -108,7 +108,7 @@ const ProductPage: React.FC = () => {
                 Add to cart
               </button>
               <button
-                className="w-full text-white bg-black py-1 rounded-lg"
+                className="w-full text-white bg-black py-1 rounded-lg cursor-pointer"
                 onClick={() => openPurchaseForm("Product")}>
                 Buy Now
               </button>
@@ -130,7 +130,7 @@ const ProductPage: React.FC = () => {
             </div>
             <details className="group">
               <summary
-                className="list-none cursor-pointer flex items-center text-blue-600"
+                className="list-none cursor-pointer flex items-center text-blue-600 "
                 onClick={() => {
                   setIsOpen(!isOpen);
                 }}>
