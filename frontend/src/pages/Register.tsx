@@ -14,7 +14,7 @@ const Register: FC = () => {
   const handleSubmit = async (formObject: Record<string, string>) => {
     try {
       await axiosInstance.post(
-        "http://localhost:5050/auth/register",
+        import.meta.env.VITE_BACKEND_URL + "/auth/register",
         formObject
       );
       setLogin(true);

@@ -37,7 +37,7 @@ const Navbar = () => {
   const logout = async () => {
     try {
       axios.defaults.withCredentials = true;
-      const response = await axios.post("http://localhost:5050/auth/logout");
+      const response = await axios.post(backendUrl + "/auth/logout");
       response.data.success && setUserData(false);
       response.data.success && setLogin(false);
 
@@ -55,7 +55,7 @@ const Navbar = () => {
     const fetchUserData = async () => {
       try {
         const response = await axiosInstance.get(
-          "http://localhost:5050/user/getUserData",
+          backendUrl + "/user/getUserData",
           {
             withCredentials: true,
           }
@@ -65,7 +65,7 @@ const Navbar = () => {
         setLogin(true);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          toast.success(error.response?.data || "Login failed");
+          toast.error(error.response?.data || "Login failed");
         } else {
           toast.error("Unexpected login error");
         }

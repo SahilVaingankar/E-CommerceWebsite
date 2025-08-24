@@ -12,9 +12,13 @@ const Login = () => {
   const handleSumbit = async (loginInfo: any) => {
     if (loginInfo.password.length >= 5 && loginInfo.password.length <= 20) {
       try {
-        await axios.post("http://localhost:5050/auth/login", loginInfo, {
-          withCredentials: true,
-        });
+        await axios.post(
+          import.meta.env.VITE_BACKEND_URL + "/auth/login",
+          loginInfo,
+          {
+            withCredentials: true,
+          }
+        );
         setLogin(true);
         toast.success("login successful");
         navigate("/");

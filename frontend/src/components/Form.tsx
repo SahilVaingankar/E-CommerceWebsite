@@ -101,8 +101,8 @@ const Form: React.FC<FormProps> = ({
             {label && (
               <label className="block mb-1 font-medium">
                 {label.endsWith(")") ? (
-                  <p className="flex gap-2 items-center">
-                    {label}{" "}
+                  <div className="flex gap-2 items-center">
+                    <span>{label} </span>
                     <div>
                       <PopOver message={message} text={textColor}>
                         <BiCopy
@@ -111,7 +111,7 @@ const Form: React.FC<FormProps> = ({
                         />
                       </PopOver>
                     </div>
-                  </p>
+                  </div>
                 ) : (
                   label
                 )}

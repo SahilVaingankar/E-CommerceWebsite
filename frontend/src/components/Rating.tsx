@@ -1,9 +1,9 @@
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
-import img from "../assets/Gold_Star.svg.png";
+// import img from "../assets/Gold_Star.svg.png";
 
 const Rating = ({ rating }: { rating: number }) => {
   // for Mask method
-  const width = rating * 20;
+  // const width = rating * 20;
 
   // for Traditional method
   const stars = [];

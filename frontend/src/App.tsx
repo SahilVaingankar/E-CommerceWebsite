@@ -24,7 +24,7 @@ const App = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        await axios.get("http://localhost:5050/user/getUserData", {
+        await axios.get(import.meta.env.backendUrl + "/user/getUserData", {
           withCredentials: true,
         });
 
