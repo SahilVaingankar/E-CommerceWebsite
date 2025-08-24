@@ -27,7 +27,7 @@ const Login = () => {
           toast.error(
             error.response?.data?.error?.details?.[0]?.message ||
               error.response?.data.message ||
-              "Register failed"
+              "login failed"
           );
         } else {
           toast.error("Unexpected login error");

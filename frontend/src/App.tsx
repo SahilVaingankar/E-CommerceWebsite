@@ -36,7 +36,7 @@ const App = () => {
         setUserData(res?.data?.userData);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          toast.error(error.response?.data || "Login failed");
+          toast.error(error.response?.data || "failed to fetch UserData");
         } else {
           toast.error("Unexpected login error");
         }
