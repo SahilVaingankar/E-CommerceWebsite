@@ -11,7 +11,7 @@ const port = process.env.PORT || 50000;
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "http://e-commercewebsite-production-37d2.up.railway.app",
+  "https://e-commercewebsite-production-37d2.up.railway.app",
 ];
 
 app.use(express.json());
