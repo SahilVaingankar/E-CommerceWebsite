@@ -2,17 +2,16 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import axiosInstance from "../services/axios";
 import { useStore } from "../stores/store";
 import PopOver from "./PopOver";
 
 const Navbar = () => {
-  const { setLogin, darkMode, toggleMode, login } = useStore();
+  const { setLogin, darkMode, toggleMode, login, userData, setUserData } =
+    useStore();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  const [userData, setUserData] = useState<any>("");
   const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -50,29 +49,6 @@ const Navbar = () => {
       }
     }
   };
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axiosInstance.get(
-          backendUrl + "/user/getUserData",
-          {
-            withCredentials: true,
-          }
-        );
-
-        setUserData(response.data.userData);
-        setLogin(true);
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          toast.error(error.response?.data || "Login failed");
-        } else {
-          toast.error("Unexpected login error");
-        }
-      }
-    };
-    fetchUserData();
-  }, []);
 
   return (
     <nav

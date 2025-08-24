@@ -10,11 +10,12 @@ import EmailVerify from "./pages/EmailVerify";
 import ResetPassword from "./pages/ResetPassword";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import axios from "axios";
+import axiosInstance from "./services/axios";
 import { useEffect } from "react";
 import { useStore } from "./stores/store";
 
 const App = () => {
-  const { setLogin } = useStore();
+  const { setLogin, setUserData } = useStore();
   const darkMode = useStore((state) => state.darkMode);
 
   useEffect(() => {
@@ -24,11 +25,15 @@ const App = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        await axios.get(import.meta.env.backendUrl + "/user/getUserData", {
-          withCredentials: true,
-        });
+        const res = await axiosInstance.get(
+          import.meta.env.VITE_BACKEND_URL + "/user/getUserData",
+          {
+            withCredentials: true,
+          }
+        );
 
         setLogin(true);
+        setUserData(res?.data?.userData);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toast.error(error.response?.data || "Login failed");

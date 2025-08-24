@@ -32,8 +32,8 @@ interface Store {
   setLogin: (state: boolean) => void;
   selectedRecommendation: string;
   setSelectedRecommendation: (state: string) => void;
-  // userData: any;
-  // setUserData: (state: any) => void;
+  userData: any;
+  setUserData: (state: any) => void;
 
   filters: {
     category: string | null;
@@ -231,6 +231,6 @@ export const useStore = create<Store>((set, get) => ({
   selectedRecommendation: "",
   setSelectedRecommendation: (state) => set({ selectedRecommendation: state }),
 
-  // userData: "",
-  // setUserData: (state) => set({ selectedRecommendation: state }),
+  userData: "",
+  setUserData: (data) => set({ userData: data }),
 }));
