@@ -159,7 +159,7 @@ export const SearchBar = () => {
           <div
             className={`${
               query.length > 0 ? "fixed" : "hidden"
-            } inset-0 bg-black/50 top-12 flex justify-center items-center`}
+            } inset-0 bg-black/50 top-12 flex justify-center items-center dark:text-black`}
             onClick={() => setShowOverlay(false)}>
             <p className="bg-white px-4 py-2">No results found</p>
           </div>
