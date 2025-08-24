@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useStore } from "../stores/store";
+import { useNavigate } from "react-router-dom";
 
 export const SearchBar = () => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
   const [showOverlay, setShowOverlay] = useState(false);
   const [navigated, setNavigated] = useState(false);
   const [query, setQuery] = useState("");
@@ -32,6 +34,7 @@ export const SearchBar = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
+      navigate("/Home");
       reset();
       setSelectedRecommendation("");
       setSidebarFilterProducts("All");
