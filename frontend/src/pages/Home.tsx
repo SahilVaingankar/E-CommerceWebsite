@@ -36,7 +36,7 @@ const Home = () => {
       }
     };
 
-    if (!allProducts) {
+    if (allProducts.length === 0) {
       fetchData();
     }
   }, []);
