@@ -100,7 +100,7 @@ const ProductPage: React.FC = () => {
               </p>
               <QuantityDropdown price={product.price} />
               <button
-                className="w-full text-black bg-amber-400 py-1 rounded-lg active:bg-amber-300 cursor-pointer"
+                className="w-full text-black bg-amber-400 hover:bg-amber-300 py-1 rounded-lg active:bg-amber-400 cursor-pointer"
                 onClick={() => {
                   addToCart(product, cartPageQuantity), setCartPageQuantity(1);
                   toast.success(`${product.title} is added to the cart`);
@@ -108,7 +108,7 @@ const ProductPage: React.FC = () => {
                 Add to cart
               </button>
               <button
-                className="w-full text-white bg-black py-1 rounded-lg cursor-pointer"
+                className="w-full text-white bg-black hover:bg-black/60 active:bg-black py-1 rounded-lg cursor-pointer"
                 onClick={() => openPurchaseForm("Product")}>
                 Buy Now
               </button>
