@@ -42,4 +42,4 @@ Each of those three projects followed different architectures, and only one of t
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB
 - **Authentication:** JWT
-- **State Management:** React hooks / Context API
+- **State Management:** React hooks / Zustand
